@@ -4,16 +4,16 @@ import Input from "./input";
 import TextArea from "./textarea";
 import { useForm } from "react-hook-form";
 import Button from "./button";
-import { IAddPostRequest } from "types/types";
+import { IEditProfile } from "types/types";
 
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
-  const { register, handleSubmit, watch } = useForm<IAddPostRequest>();
-  const media = watch("media");
+export default function EditModal({ isOpen, setIsOpen }: IModalProps) {
+  const { register, handleSubmit, watch } = useForm<IEditProfile>();
+  const media = watch("profileImage");
   const [mediaPreview, setMediaPreview] = useState("");
   useEffect(() => {
     if (media && media.length > 0) {
@@ -24,13 +24,12 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
   const onClick = () => {
     setIsOpen((props) => !props);
   };
-  const onValid = (data: IAddPostRequest) => {
+  const onValid = (data: IEditProfile) => {
     const formData = new FormData();
 
-    formData.append("media", data.media[0]);
-    formData.append("title", data.title);
-    formData.append("content", data.content);
-    formData.append("hashtag", JSON.stringify(data.hashtag));
+    formData.append("media", data.profileImage[0]);
+    formData.append("title", data.nickname);
+    formData.append("content", data.introduce);
 
     console.log(formData);
     setIsOpen((props) => !props);
@@ -67,7 +66,7 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
                   className=" border-4 border-dotted w-full flex flex-col rounded-md justify-center items-center p-10"
                 >
                   <input
-                    {...register("media")}
+                    {...register("profileImage")}
                     id="upload"
                     type="file"
                     className=" hidden"
@@ -94,18 +93,15 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
                 </label>
               )}
               <div className="space-y-2">
-                <span>Title</span>
-                <Input type="text" register={register("title")} />
+                <span>Nickname</span>
+                <Input type="text" register={register("nickname")} />
               </div>
               <div>
-                <span>Content</span>
-                <TextArea register={register("content")} />
+                <span>Introduce</span>
+                <TextArea register={register("introduce")} />
               </div>
-              <div>
-                <span>HashTag</span>
-                <Input type="text" register={register("hashtag")} />
-              </div>
-              <Button text="Add Post" />
+
+              <Button text="Edit Profile" />
             </form>
           </div>
         </div>

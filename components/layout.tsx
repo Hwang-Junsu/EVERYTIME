@@ -196,11 +196,7 @@ export default function Layout({
           </nav>
         ) : null}
       </div>
-      {isOpen ? (
-        <AddModal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <div>추가모달입니다.</div>
-        </AddModal>
-      ) : null}
+      {isOpen ? <AddModal isOpen={isOpen} setIsOpen={setIsOpen} /> : null}
     </>
   );
 }

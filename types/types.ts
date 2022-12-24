@@ -21,10 +21,17 @@ export interface User {
   imageUrl: string;
 }
 
+export interface IEditProfile {
+  nickname: string;
+  introduce: string;
+  profileImage: FileList;
+}
+
 export interface IAddPostRequest {
   title: string;
   content: string;
   hashtag: string[];
+  media: FileList;
 }
 
 export interface IUpdatePostRequest {
