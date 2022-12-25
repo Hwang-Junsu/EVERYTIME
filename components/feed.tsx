@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { Post } from "types/types";
 
-export default function Feed() {
+export default function Feed({ ...post }: Post) {
+  const { titie, comments, content, user, likes, isLike } = post;
   const [input, setInput] = useState("");
 
   return (
@@ -8,7 +10,7 @@ export default function Feed() {
       <header className="flex justify-between">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-full cursor-pointer bg-slate-500" />
-          <h1 className="font-bold cursor-pointer">닉네임</h1>
+          <h1 className="font-bold cursor-pointer">{user?.nickname}</h1>
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -31,13 +33,13 @@ export default function Feed() {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="cursor-pointer w-7 h-7"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
           />
         </svg>
@@ -45,7 +47,7 @@ export default function Feed() {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="cursor-pointer w-7 h-7"
         >
@@ -59,7 +61,7 @@ export default function Feed() {
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           stroke="currentColor"
           className="cursor-pointer w-7 h-7"
         >
@@ -70,26 +72,24 @@ export default function Feed() {
           />
         </svg>
       </div>
-      <div className="text-sm font-bold">좋아요 200개</div>
+      <div className="text-sm font-bold">{`좋아요 ${likes}개`}</div>
       <article>
         <div className="space-x-2">
           <span className="text-sm font-bold text-gray-500 cursor-pointer">
-            작성자닉네임
+            {user?.nickname}
           </span>
-          <div className="inline-block text-sm text-gray-900">
-            내용내용내용요요요
-          </div>
+          <div className="inline-block text-sm text-gray-900">{content}</div>
         </div>
       </article>
       <div className="space-x-2 text-blue-400">
-        {[1, 1, 1, 1, 1].map((el) => (
+        {[1, 2, 3, 4, 5].map((el) => (
           <span key={el} className="cursor-pointer">
             #tag
           </span>
         ))}
       </div>
       <div className="text-sm tracking-tighter text-gray-500 cursor-pointer">
-        댓글 20개 모두 보기
+        {`댓글 ${comments.length}개 모두 보기`}
       </div>
       <div className="relative ">
         <input

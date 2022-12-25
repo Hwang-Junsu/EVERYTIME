@@ -41,6 +41,7 @@ export interface IUpdatePostRequest {
 }
 
 export interface Post {
+  id: string;
   titie: string;
   content: string;
   mediaUrl: string;
@@ -48,8 +49,10 @@ export interface Post {
   isLike: boolean;
   likes: number;
   user: User;
+  comments: Comment[];
 }
 
 export interface Comment {
   content: string;
+  user: User;
 }
