@@ -1,102 +1,59 @@
-import client from "@libs/server/client";
-import {PrismaAdapter} from "@next-auth/prisma-adapter";
+import * as bcrypt from "bcrypt";
+import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
+import client from "@libs/server/client";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
-import CredentailsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
-import {NextApiRequest} from "next";
+import KakaoProvider from "next-auth/providers/kakao";
 
 export default NextAuth({
-    adapter: PrismaAdapter(client),
-    providers: [
-        CredentailsProvider({
-            name: "Credentials",
-            credentials: {
-                id: {
-                    label: "이메일",
-                    type: "text",
-                    placeholder: "아이디를 입력하세요.",
-                },
-                password: {
-                    label: "비밀번호",
-                    type: "password",
-                    placeholder: "비밀번호를 입력하세요.",
-                },
-            },
-            async authorize(
-                credentials: Record<any, any>,
-                req: NextApiRequest
-            ) {
-                console.log(credentials);
-                return credentials;
-                if (!credentials)
-                    throw new Error(
-                        "잘못된 입력값으로 인한 오류가 발생했습니다."
-                    );
+  providers: [
+    CredentialsProvider({
+      name: "email-password-credential",
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "test@test.com" },
+        password: { label: "Password", type: "password" },
+      },
 
-                const {id, password} = credentials;
-
-                const exUser = await client.user.findUnique({
-                    where: {id},
-                });
-                if (!exUser) throw new Error("존재하지 않는 아이디입니다.");
-
-                const result = await bcrypt.compare(password, exUser.password);
-                if (!result) throw new Error("비밀번호가 불일치합니다.");
-
-                // 반환하는 값중에 name, email, image만 살려서 "session.user"로 들어감
-                return exUser;
-            },
-        }),
-
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        }),
-    ],
-    callbacks: {
-        async jwt({token, account}) {
-            // "account.provider"는 로그인을 요청할 때만 값이 존재하기 때문에
-            // 로그인 요청을 하는 경우에 체크해서 첫 로그인이라면 등록합니다.
-
-            // 구글 로그인일 경우
-            if (account?.provider === "google") {
-                const exUser = await client.user.findFirst({
-                    where: {provider: "GOOGLE", email: token.email!},
-                });
-
-                // 등록된 유저가 아니라면 회원가입
-                if (!exUser) {
-                    await client.user.create({
-                        data: {
-                            name: token.name!,
-                            email: token.email!,
-                            image: token.picture,
-                            provider: "GOOGLE",
-                        },
-                    });
-                }
-            }
-
-            return token;
-        },
-        // 세션에 로그인한 유저 데이터 입력
-        async session({session}) {
-            const exUser = await client.user.findFirst({
-                where: {email: session.user.email},
-                select: {
-                    id: true,
-                    name: true,
-                    email: true,
-                    image: true,
-                    provider: true,
-                },
-            });
-
-            session.user = exUser!;
-
-            return session;
-        },
+      async authorize(credentials) {
+        // Add logic here to look up the user from the credentials supplied
+        const user = await client.user.findUnique({
+          where: { email: credentials?.email },
+          select: { name: true, email: true, password: true },
+        });
+        const matchedPassword = await bcrypt.compare(
+          credentials?.password as string,
+          user?.password as string
+        );
+        if (user) {
+          // Any object returned will be saved in `user` property of the JWT
+          return user;
+        } else {
+          // If you return null then an error will be displayed advising the user to check their details.
+          return null;
+          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        }
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID as string,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET as string,
+    }),
+  ],
+  callbacks: {
+    async jwt({ token, account, profile, isNewUser }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
     },
-    pages: {signIn: "/login"},
+  },
+  secret: "123132131fsdvfawefae",
+  adapter: PrismaAdapter(client),
+  pages: { signIn: "/login" },
+  session: { strategy: "jwt" },
 });

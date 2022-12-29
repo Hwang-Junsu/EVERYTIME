@@ -1,7 +1,7 @@
 export interface IRegisterRequest {
   email: string;
   password: string;
-  nickname: string;
+  name: string;
   introduce: string;
 }
 
@@ -16,13 +16,13 @@ export interface ILoginRequest {
 
 export interface User {
   email: string;
-  nickname: string;
+  name: string;
   introduce: string;
   imageUrl: string;
 }
 
 export interface IEditProfile {
-  nickname: string;
+  name: string;
   introduce: string;
   profileImage: FileList;
 }
