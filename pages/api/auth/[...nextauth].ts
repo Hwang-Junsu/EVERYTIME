@@ -49,14 +49,14 @@ export default NextAuth({
         }),
     ],
     callbacks: {
-        async jwt({token, account}) {
-            if (account) {
-                token.accessToken = account.access_token;
+        jwt: async ({user, token}) => {
+            if (user) {
+                token.uid = user.id;
             }
             return token;
         },
     },
-    secret: "123132131fsdvfawefae",
+    secret: process.env.NEXTAUTH_SECRET,
     adapter: PrismaAdapter(client),
     pages: {signIn: "/login"},
     session: {strategy: "jwt"},

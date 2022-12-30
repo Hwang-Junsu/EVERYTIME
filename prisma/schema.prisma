@@ -73,6 +73,7 @@ model Post {
   author    String
   content   String
   media     String
+  mediaType String    @default("Image")
   hashtags  String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())

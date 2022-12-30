@@ -6,8 +6,6 @@ import {useRouter} from "next/router";
 import {useForm} from "react-hook-form";
 import {ILoginRequest} from "types/types";
 import {signIn} from "next-auth/react";
-import Image from "next/image";
-import Swal from "sweetalert2";
 
 export default function Login() {
     const {register, handleSubmit} = useForm<ILoginRequest>();
@@ -20,20 +18,16 @@ export default function Login() {
         if (response?.ok) router.push("/");
     };
     const onGoogleLogin = async () => {
-        const response = await signIn("google", {redirect: false});
-        if (response.ok) {
-            router.push("/");
-            return;
-        }
-        Swal.fire("로그인 오류입니다.");
+        await signIn("google", {
+            redirect: true,
+            callbackUrl: "http://localhost:3000",
+        });
     };
     const onKakaoLogin = async () => {
-        const response = await signIn("kakao", {redirect: false});
-        if (response.ok) {
-            router.push("/");
-            return;
-        }
-        Swal.fire("로그인 오류입니다.");
+        await signIn("kakao", {
+            redirect: true,
+            callbackUrl: "http://localhost:3000",
+        });
     };
 
     return (
@@ -44,7 +38,7 @@ export default function Login() {
             <div className="flex flex-col items-center justify-center h-screen px-4">
                 <form
                     onSubmit={handleSubmit(onValid)}
-                    className="flex flex-col w-3/4 p-3 py-16 mx-auto mb-4 space-y-10 border-2 border-solid"
+                    className="flex flex-col w-3/4 p-3 py-8 mx-auto mb-4 space-y-10 border-2 border-solid"
                 >
                     <h1 className="font-bold tracking-[-3px] text-4xl text-center">
                         JUNSTAGRAM
@@ -62,13 +56,13 @@ export default function Login() {
                         />
                     </div>
                     <Button text="로그인" large />
-                </form>
-                <div className="w-3/4 p-3 mx-auto space-y-2 border-2 border-solid">
                     <Link href="/join">
                         <div className="font-bold text-center cursor-pointer hover:underline hover:text-blue-500">
                             계정이 없으신가요?
                         </div>
                     </Link>
+                </form>
+                <div className="w-3/4 p-3 mx-auto space-y-2 border-2 border-solid">
                     <div className="flex flex-col items-center justify-center w-full space-y-2">
                         <button
                             onClick={onGoogleLogin}
