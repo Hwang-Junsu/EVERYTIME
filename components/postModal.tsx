@@ -3,6 +3,8 @@ import {Post, User} from "@prisma/client";
 import Image from "next/image";
 import BasicProfile from "images/basic_profile.jpg";
 import {Dispatch, SetStateAction, useState} from "react";
+import {useQuery} from "react-query";
+import {api} from "@libs/api";
 interface IModalProps {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -13,25 +15,22 @@ interface ICount {
     likes: number;
 }
 
-interface PostWithLikeAndComment extends Post {
-    _count: ICount;
-    user: User;
-    isLike: boolean;
-}
-
 interface IPostModalProps extends IModalProps {
-    post: PostWithLikeAndComment;
+    postId: number;
     onLikeClick: () => void;
+    addComment: (data: string, serFn: Dispatch<SetStateAction<string>>) => void;
 }
 
 export default function PostModal({
     isOpen,
     setIsOpen,
-    post,
+    postId,
     onLikeClick,
+    addComment,
 }: IPostModalProps) {
-    const {title, media, author, content, _count, user, id, mediaType, isLike} =
-        post;
+    const {data, isLoading} = useQuery(["posts", postId], () =>
+        api.get(`/api/posts/${postId}`)
+    );
     const onClick = () => {
         setIsOpen((props) => !props);
     };
@@ -42,7 +41,7 @@ export default function PostModal({
                 <div
                     onClick={onClick}
                     role="presentation"
-                    className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+                    className="fixed z-[999] top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}
@@ -56,14 +55,17 @@ export default function PostModal({
                             <header className="flex justify-between">
                                 <div className="flex items-center space-x-2">
                                     <Image
-                                        src={user.image || BasicProfile}
+                                        src={
+                                            data?.data?.post.user.image ||
+                                            BasicProfile
+                                        }
                                         width={48}
                                         height={48}
                                         alt="profileImage"
                                         className="w-8 h-8 rounded-full cursor-pointer bg-slate-500"
                                     />
                                     <h1 className="font-bold cursor-pointer">
-                                        {author}
+                                        {data?.data?.post.author}
                                     </h1>
                                 </div>
                                 <svg
@@ -82,15 +84,15 @@ export default function PostModal({
                                 </svg>
                             </header>
                             <div className="relative w-full h-60 bg-slate-600">
-                                {mediaType === "Video" ? (
+                                {data?.data?.post.mediaType === "Video" ? (
                                     <iframe
-                                        src={media}
+                                        src={data?.data?.postmedia}
                                         allow="fullscreen"
                                         className="w-full h-full"
                                     />
                                 ) : (
                                     <Image
-                                        src={`https://imagedelivery.net/_svxocQ2IUnWarpkNEZZ5A/${media}/public`}
+                                        src={`https://imagedelivery.net/_svxocQ2IUnWarpkNEZZ5A/${data?.data?.post.media}/public`}
                                         className="object-contain "
                                         alt="postImage"
                                         layout="fill"
@@ -101,7 +103,10 @@ export default function PostModal({
                                 <div onClick={onLikeClick}>
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        fill={cls("", isLike ? "red" : "none")}
+                                        fill={cls(
+                                            "",
+                                            data?.data?.isLike ? "red" : "none"
+                                        )}
                                         viewBox="0 0 24 24"
                                         strokeWidth="1.5"
                                         stroke="currentColor"
@@ -143,17 +148,17 @@ export default function PostModal({
                                     />
                                 </svg>
                             </div>
-                            <div className="text-sm font-bold">{`좋아요 ${_count.likes}개`}</div>
+                            <div className="text-sm font-bold">{`좋아요 ${data?.data?.post._count.likes}개`}</div>
                             <article>
                                 <div className="space-x-2">
                                     <span className="text-sm font-bold text-gray-500 cursor-pointer">
-                                        {author}
+                                        {data?.data?.post.author}
                                     </span>
                                     <div className="inline-block text-sm text-gray-900">
-                                        {title}
+                                        {data?.data?.post.title}
                                     </div>
                                 </div>
-                                <div>{content}</div>
+                                <div>{data?.data?.post.content}</div>
                             </article>
                             <div className="space-x-2 text-blue-400">
                                 {[1, 2, 3, 4, 5].map((el) => (
@@ -163,7 +168,7 @@ export default function PostModal({
                                 ))}
                             </div>
                             <div className="text-sm tracking-tighter text-gray-500 cursor-pointer">
-                                {`댓글 ${_count.comments}개 모두 보기`}
+                                {`댓글 ${data?.data?.post._count.comments}개 모두 보기`}
                             </div>
                             <div className="relative ">
                                 <input
@@ -176,6 +181,9 @@ export default function PostModal({
                                     <button
                                         type="button"
                                         className="text-blue-400"
+                                        onClick={() =>
+                                            addComment(input, setInput)
+                                        }
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"

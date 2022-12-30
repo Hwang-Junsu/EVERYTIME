@@ -20,7 +20,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                     image: true,
                 },
             },
-            comments: true,
+            comments: {
+                include: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            image: true,
+                        },
+                    },
+                },
+            },
             _count: {
                 select: {
                     comments: true,
@@ -29,10 +39,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             },
         },
     });
+    const isLike = Boolean(
+        await client.like.findFirst({
+            where: {
+                postId: post?.id,
+                userId: token.uid,
+            },
+            select: {
+                id: true,
+            },
+        })
+    );
 
     res.json({
         ok: true,
         post,
+        isLike,
     });
 }
 

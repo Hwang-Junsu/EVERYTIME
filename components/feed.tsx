@@ -1,6 +1,6 @@
 import {Post, User} from "@prisma/client";
 import Image from "next/image";
-import {useState} from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import BasicProfile from "images/basic_profile.jpg";
 import {useMutation, useQueryClient} from "react-query";
 import {api} from "@libs/api";
@@ -28,11 +28,23 @@ export default function Feed({...post}: PostWithLikeAndComment) {
         () => api.post(`/api/posts/${id}/like`),
         {onSuccess: () => queryClient.invalidateQueries(["posts"])}
     );
+    const {mutate: commentMutate} = useMutation(
+        ({content}: {content: string}) =>
+            api.post(`/api/comments/${id}`, {content}),
+        {onSuccess: () => queryClient.invalidateQueries(["posts"])}
+    );
     const onLikeClick = () => {
         likeMutate();
     };
     const setOpenPost = () => {
         setIsOpen((props) => !props);
+    };
+    const addComment = (
+        data: string,
+        setFn: Dispatch<SetStateAction<string>>
+    ) => {
+        commentMutate({content: data});
+        setFn("");
     };
 
     return (
@@ -147,7 +159,10 @@ export default function Feed({...post}: PostWithLikeAndComment) {
                         </span>
                     ))}
                 </div>
-                <div className="text-sm tracking-tighter text-gray-500 cursor-pointer">
+                <div
+                    onClick={setOpenPost}
+                    className="text-sm tracking-tighter text-gray-500 cursor-pointer"
+                >
                     {`댓글 ${_count.comments}개 모두 보기`}
                 </div>
                 <div className="relative ">
@@ -158,7 +173,11 @@ export default function Feed({...post}: PostWithLikeAndComment) {
                         className="w-full p-2 px-4 border rounded-md focus:outline-blue-400"
                     />
                     <div className="absolute cursor-pointer right-2 top-2">
-                        <button type="button" className="text-blue-400">
+                        <button
+                            type="button"
+                            className="text-blue-400"
+                            onClick={() => addComment(input, setInput)}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -181,8 +200,9 @@ export default function Feed({...post}: PostWithLikeAndComment) {
                 <PostModal
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
-                    post={post}
+                    postId={post.id}
                     onLikeClick={onLikeClick}
+                    addComment={addComment}
                 />
             ) : null}
         </>
