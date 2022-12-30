@@ -8,7 +8,7 @@ const secret = process.env.NEXTAUTH_SECRET;
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = await getToken({ req, secret });
   if (!token) res.status(403).json({ message: "Not Login" });
-  const alreadyExists = await client.like.findFirst({
+  const alreadyExists = await client.bookmark.findFirst({
     where: {
       postId: Number(req.query.id),
       userId: token.uid,
@@ -16,13 +16,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (alreadyExists) {
-    await client.like.delete({
+    await client.bookmark.delete({
       where: {
         id: alreadyExists.id,
       },
     });
   } else {
-    await client.like.create({
+    await client.bookmark.create({
       data: {
         user: {
           connect: {

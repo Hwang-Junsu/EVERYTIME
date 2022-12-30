@@ -44,19 +44,20 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   password      String?
   accounts      Account[]
   sessions      Session[]
-  Post          Post[]
-  Like          Like[]
-  Comment       Comment[]
-  sendFollow    Follow[]  @relation(name: "sendFollow")
-  receiveFollow Follow[]  @relation(name: "receiveFollow")
+  post          Post[]
+  like          Like[]
+  comment       Comment[]
+  sendFollow    Follow[]   @relation(name: "sendFollow")
+  receiveFollow Follow[]   @relation(name: "receiveFollow")
+  bookmark      Bookmark[]
 }
 
 model VerificationToken {
@@ -68,19 +69,21 @@ model VerificationToken {
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   title     String
   author    String
   content   String
   media     String
-  mediaType String    @default("Image")
+  mediaType String     @default("Image")
   hashtags  String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  thumbnail String?    @default("None")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
   likes     Like[]
   comments  Comment[]
-  user      User      @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
   userId    String
+  bookmark  Bookmark[]
 }
 
 model Comment {
@@ -90,7 +93,7 @@ model Comment {
   updatedAt DateTime @default(now())
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 }
 
@@ -100,7 +103,7 @@ model Like {
   updatedAt DateTime @default(now())
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 }
 
@@ -112,4 +115,14 @@ model Follow {
   receiveUser   User     @relation(name: "receiveFollow", fields: [receiveUserId], references: [id])
   sendUserId    String
   receiveUserId String
+}
+
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
