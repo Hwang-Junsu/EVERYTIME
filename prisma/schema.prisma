@@ -50,6 +50,7 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  introduce     String?
   accounts      Account[]
   sessions      Session[]
   post          Post[]

@@ -5,16 +5,38 @@ import TextArea from "./textarea";
 import {useForm} from "react-hook-form";
 import Button from "./button";
 import {IEditProfile} from "types/types";
+import Image from "next/legacy/image";
+import {api} from "@libs/api";
+import {useMutation} from "react-query";
+import {useSession} from "next-auth/react";
+import {useQueryClient} from "react-query";
 
 interface IModalProps {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
+interface IUpdateProfileRequest {
+    image?: string;
+    introduce: string;
+    name: string;
+}
+
 export default function EditModal({isOpen, setIsOpen}: IModalProps) {
+    const {data: token} = useSession();
+    const queryClient = useQueryClient();
     const {register, handleSubmit, watch} = useForm<IEditProfile>();
     const media = watch("profileImage");
     const [mediaPreview, setMediaPreview] = useState("");
+    const {mutate} = useMutation(
+        (data: IUpdateProfileRequest) =>
+            api.patch(`/api/users/${token?.user?.id}`, data),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(["profile"]);
+            },
+        }
+    );
     useEffect(() => {
         if (media && media.length > 0) {
             const file = media[0];
@@ -24,14 +46,29 @@ export default function EditModal({isOpen, setIsOpen}: IModalProps) {
     const onClick = () => {
         setIsOpen((props) => !props);
     };
-    const onValid = (data: IEditProfile) => {
+    const onValid = async (data: IEditProfile) => {
         const formData = new FormData();
+        let addImageData: IUpdateProfileRequest = {
+            introduce: data.introduce,
+            name: data.name,
+        };
+        if (Boolean(data.profileImage[0])) {
+            formData.append("file", data.profileImage[0]);
+            const {
+                data: {uploadURL},
+            } = await api.get("/api/image");
+            const {
+                data: {
+                    result: {id},
+                },
+            } = await api.post(uploadURL, formData);
+            addImageData = {
+                ...addImageData,
+                image: `https://imagedelivery.net/_svxocQ2IUnWarpkNEZZ5A/${id}/public`,
+            };
+        }
 
-        formData.append("media", data.profileImage[0]);
-        formData.append("title", data.nickname);
-        formData.append("content", data.introduce);
-
-        console.log(formData);
+        mutate(addImageData);
         setIsOpen((props) => !props);
     };
     return (
@@ -55,15 +92,18 @@ export default function EditModal({isOpen, setIsOpen}: IModalProps) {
                             onSubmit={handleSubmit(onValid)}
                         >
                             {mediaPreview ? (
-                                <img
-                                    alt="imagePreview"
-                                    src={mediaPreview}
-                                    className="object-cover w-full shadow-lg"
-                                />
+                                <div className="relative mx-auto overflow-hidden rounded-full shadow-lg w-60 h-60">
+                                    <Image
+                                        alt="imagePreview"
+                                        src={mediaPreview}
+                                        layout="fill"
+                                        className="object-cover"
+                                    />
+                                </div>
                             ) : (
                                 <label
                                     htmlFor="upload"
-                                    className="flex flex-col items-center justify-center w-full p-10 border-4 border-dotted rounded-md "
+                                    className="relative flex flex-col items-center justify-center p-10 mx-auto border-4 border-dotted rounded-full w-60 h-60 "
                                 >
                                     <input
                                         {...register("profileImage")}
@@ -87,7 +127,7 @@ export default function EditModal({isOpen, setIsOpen}: IModalProps) {
                                             />
                                         </svg>
                                     </div>
-                                    <div className="text-2xl font-bold tracking-tighter">
+                                    <div className="text-2xl font-bold tracking-tighter text-center">
                                         UPLOAD IMAGE
                                     </div>
                                 </label>
@@ -96,7 +136,7 @@ export default function EditModal({isOpen, setIsOpen}: IModalProps) {
                                 <span>Nickname</span>
                                 <Input
                                     type="text"
-                                    register={register("nickname")}
+                                    register={register("name")}
                                 />
                             </div>
                             <div>

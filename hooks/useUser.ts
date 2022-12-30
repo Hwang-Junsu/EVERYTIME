@@ -1,21 +1,22 @@
-import { User } from "../types/types";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import useSWR from "swr";
+import {useSession} from "next-auth/react";
+import {User} from "../types/types";
+import {api} from "@libs/api";
+import {useQuery} from "react-query";
 
 interface ProfileResponse {
-  ok: boolean;
-  profile: User;
+    ok: boolean;
+    profile: User;
 }
 
 export default function useUser() {
-  const { data, error } = useSWR<ProfileResponse>("/api/users/me");
-  const router = useRouter();
-  useEffect(() => {
-    if (data && !data.ok) {
-      router.replace("/enter");
-    }
-  }, [data, router]);
+    const {data: token} = useSession();
+    const {data, isLoading} = useQuery(
+        ["currentUser", token?.user?.id],
+        () => api.get(`/api/users/${token?.user?.id}`),
+        {
+            refetchOnWindowFocus: false,
+        }
+    );
 
-  return { user: data?.profile, isLoading: !data && !error };
+    return {user: data?.data?.user, isLoading};
 }
