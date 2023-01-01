@@ -114,8 +114,8 @@ model Follow {
   id            Int      @id @default(autoincrement())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
-  sendUser      User     @relation(name: "sendFollow", fields: [sendUserId], references: [id])
-  receiveUser   User     @relation(name: "receiveFollow", fields: [receiveUserId], references: [id])
+  sendUser      User     @relation(name: "sendFollow", fields: [sendUserId], references: [id], onDelete: Cascade)
+  receiveUser   User     @relation(name: "receiveFollow", fields: [receiveUserId], references: [id], onDelete: Cascade)
   sendUserId    String
   receiveUserId String
 }
@@ -139,7 +139,7 @@ model ChatRoom {
 model Message {
   id         Int      @id @default(autoincrement())
   message    String
-  createdAt  DateTime @default(now())
+  timeStamp  String
   chatroom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
   chatRoomId Int
   author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -147,9 +147,9 @@ model Message {
 }
 
 model ChattingOnUser {
-  chatroom   ChatRoom @relation(fields: [chatroomId], references: [id])
+  chatroom   ChatRoom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
   chatroomId Int
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   assignedAt DateTime @default(now())
 
