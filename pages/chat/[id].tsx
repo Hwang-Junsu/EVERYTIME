@@ -10,7 +10,7 @@ import {useRouter} from "next/router";
 
 export default function Chat() {
     const router = useRouter();
-    const {user} = useUser();
+    const {user, isLoading} = useUser();
     const [currentSocket, setCurrentSocket] = useState<Socket>();
     // const currentSocket: Socket = io("localhost:5000");
     useEffect(() => {
@@ -21,7 +21,7 @@ export default function Chat() {
         if (currentSocket) {
             const myInfo = {
                 roomName: router.query.id,
-                userName: user?.name || "NoName",
+                userName: user?.name,
             };
             currentSocket.on("connect", () => {
                 currentSocket.emit("join", myInfo);
@@ -30,15 +30,19 @@ export default function Chat() {
     }, [currentSocket]);
 
     return (
-        <Layout seoTitle="ChatRoom">
-            <div>
+        <Layout
+            seoTitle={router.query.name as string}
+            title={router.query.name as string}
+            canGoBack
+        >
+            <div className="relative w-full">
                 {currentSocket ? (
                     <>
                         <ChatLog socket={currentSocket}></ChatLog>
                         <ChatInput
                             userName={user?.name || "NoName"}
                             socket={currentSocket}
-                        ></ChatInput>
+                        />
                     </>
                 ) : (
                     <div>Loading</div>

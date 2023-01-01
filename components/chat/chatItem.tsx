@@ -3,7 +3,7 @@ import {useRouter} from "next/router";
 
 interface IChatItem {
     name: string;
-    userId: string;
+    chatroomId: number;
     lastChat: string;
     lastTimeStamp: string;
     image: string;
@@ -12,26 +12,26 @@ interface IChatItem {
 export default function ChatItem({
     name,
     lastChat,
-    userId,
+    chatroomId,
     lastTimeStamp,
     image,
 }: IChatItem) {
     const router = useRouter();
 
     const onEnterChatroom = () => {
-        router.push(`/chat/${userId}`);
+        router.push({pathname: `/chat/${chatroomId}`, query: {name}});
     };
 
     return (
         <div
-            className=" border-b-2 hover:bg-slate-100"
+            className="border-b-2 hover:bg-slate-100"
             onClick={onEnterChatroom}
         >
-            <div className="p-3 flex justify-between">
+            <div className="flex justify-between p-3">
                 <div className="px-6">
                     <div className="flex space-x-5">
-                        <div className="overflow-hidden w-10 h-10 rounded-full relative">
-                            <Image src={image} layout="fill" />
+                        <div className="relative w-10 h-10 overflow-hidden rounded-full">
+                            <Image src={image} layout="fill" alt="profile" />
                         </div>
                         <div>
                             <div>{name}</div>

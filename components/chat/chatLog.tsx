@@ -20,7 +20,7 @@ export default function ChatLog({socket}) {
     }, [socket]);
 
     return (
-        <div>
+        <div className="h-[88vh] p-5">
             {msgList.map((msg, idx) => (
                 <div key={idx}>
                     <div>{msg.userName}</div>
