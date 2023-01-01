@@ -21,6 +21,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 name: true,
                 email: true,
                 introduce: true,
+                sendFollow: {
+                    select: {
+                        receiveUser: {
+                            select: {
+                                name: true,
+                                id: true,
+                                image: true,
+                            },
+                        },
+                    },
+                },
+                receiveFollow: {
+                    select: {
+                        sendUser: {
+                            select: {
+                                name: true,
+                                id: true,
+                                image: true,
+                            },
+                        },
+                    },
+                },
                 _count: {
                     select: {
                         bookmark: true,

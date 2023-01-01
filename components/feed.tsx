@@ -8,6 +8,8 @@ import {cls} from "@libs/utils";
 import PostModal from "./postModal";
 import Hashtags from "./feed/hashtags";
 import {useRouter} from "next/router";
+import EditMenu from "./feed/edit";
+import {useSession} from "next-auth/react";
 
 interface ICount {
     comments: number;
@@ -37,6 +39,8 @@ export default function Feed({...post}: PostWithLikeAndComment) {
     const router = useRouter();
     const [input, setInput] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const {data: token} = useSession();
     const queryClient = useQueryClient();
     const {mutate: likeMutate} = useMutation(
         () => api.post(`/api/posts/${id}/like`),
@@ -51,11 +55,20 @@ export default function Feed({...post}: PostWithLikeAndComment) {
         () => api.post(`/api/posts/${id}/bookmark`),
         {onSuccess: () => queryClient.invalidateQueries(["posts"])}
     );
+    const {mutate: deletePostMutation} = useMutation(
+        () => api.delete(`/api/posts/${id}`),
+        {onSuccess: () => queryClient.invalidateQueries(["posts"])}
+    );
     const onLikeClick = () => {
         likeMutate();
     };
     const onBookmarkClick = () => {
         bookmarkMutate();
+        setIsEdit(false);
+    };
+    const onDelete = () => {
+        deletePostMutation();
+        setIsEdit(false);
     };
     const setOpenPost = () => {
         setIsOpen((props) => !props);
@@ -87,21 +100,33 @@ export default function Feed({...post}: PostWithLikeAndComment) {
                             {user.name}
                         </h1>
                     </div>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-8 h-8 cursor-pointer"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                        />
-                    </svg>
+                    <div className="relative">
+                        <div onClick={() => setIsEdit((props) => !props)}>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-8 h-8 cursor-pointer"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                                />
+                            </svg>
+                        </div>
+                        {isEdit ? (
+                            <EditMenu
+                                onDelete={onDelete}
+                                onBookmark={onBookmarkClick}
+                                isMine={user.id === token.user.id}
+                            />
+                        ) : null}
+                    </div>
                 </header>
+
                 <div className="relative w-full bg-slate-600 h-96">
                     {mediaType === "Video" ? (
                         <iframe

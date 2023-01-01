@@ -44,9 +44,9 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String           @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?          @unique
   emailVerified DateTime?
   image         String?
   password      String?
@@ -56,9 +56,11 @@ model User {
   post          Post[]
   like          Like[]
   comment       Comment[]
-  sendFollow    Follow[]   @relation(name: "sendFollow")
-  receiveFollow Follow[]   @relation(name: "receiveFollow")
+  sendFollow    Follow[]         @relation(name: "sendFollow")
+  receiveFollow Follow[]         @relation(name: "receiveFollow")
   bookmark      Bookmark[]
+  messages      Message[]
+  chatRooms     ChattingOnUser[]
 }
 
 model VerificationToken {
@@ -126,4 +128,30 @@ model Bookmark {
   postId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+model ChatRoom {
+  id      Int              @id @default(autoincrement())
+  members ChattingOnUser[]
+  message Message[]
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  message    String
+  createdAt  DateTime @default(now())
+  chatroom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  chatRoomId Int
+  author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+}
+
+model ChattingOnUser {
+  chatroom   ChatRoom @relation(fields: [chatroomId], references: [id])
+  chatroomId Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  assignedAt DateTime @default(now())
+
+  @@id([userId, chatroomId])
 }
