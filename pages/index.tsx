@@ -25,6 +25,7 @@ export default function Home() {
   });
   const { status } = useSession();
   const router = useRouter();
+  const { data: token } = useSession();
   const checkLogin = useCallback(() => {
     if (status === "unauthenticated") router.push("/login");
   }, [status]);

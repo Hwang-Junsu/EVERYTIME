@@ -50,14 +50,20 @@ export default NextAuth({
   ],
   callbacks: {
     session: async ({ session, token }) => {
+      const user = await client.user.findFirst({
+        where: { email: token.email },
+      });
       if (session?.user) {
-        session.user.id = String(token.uid);
+        session.user.id = String(user.id) || String(token.sub);
       }
       return session;
     },
     jwt: async ({ user, token }) => {
+      const currentUser = await client.user.findFirst({
+        where: { email: token.email },
+      });
       if (user) {
-        token.uid = user.id;
+        token.uid = currentUser.id || user.id;
       }
       return token;
     },

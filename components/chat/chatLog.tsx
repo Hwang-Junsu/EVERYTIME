@@ -10,7 +10,6 @@ export default function ChatLog({ socket, user, chatroomId }) {
   useEffect(() => {
     const newChatList = api.get(`/api/chat/${chatroomId}`);
     newChatList.then((data) => {
-      console.log(data?.data?.chatroom?.message);
       setMsgList(data?.data?.chatroom?.message);
     });
   }, []);

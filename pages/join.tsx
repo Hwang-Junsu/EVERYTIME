@@ -15,8 +15,7 @@ export default function Join() {
       password: data.password,
       name: data.name,
     };
-    const response = await api.post("/api/users/register", req);
-    console.log(response);
+    await api.post("/api/users/register", req);
   };
   return (
     <>

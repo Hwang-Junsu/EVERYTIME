@@ -17,7 +17,8 @@ export default function Chat() {
         <ChatAddModal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          userList={user?.receiveFollow}
+          sendUserList={user?.sendFollow}
+          receiveUserList={user?.receiveFollow}
         />
       ) : null}
       <div
@@ -39,9 +40,17 @@ export default function Chat() {
             name={counterMember.user.name}
             image={counterMember.user.image}
             lastChat={
-              chat.chatroom.message[chat.chatroom.message.length - 1].message
+              chat.chatroom.message.length === 0
+                ? []
+                : chat.chatroom.message[chat.chatroom.message.length - 1]
+                    .message
             }
-            lastTimeStamp="1시간 전"
+            lastTimeStamp={
+              chat.chatroom.message.length === 0
+                ? []
+                : chat.chatroom.message[chat.chatroom.message.length - 1]
+                    .timeStamp
+            }
           />
         );
       })}

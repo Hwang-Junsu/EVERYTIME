@@ -91,6 +91,9 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
   // * getChatListAPI ✅
   if (req.method === "GET") {
     const chatrooms = await client.chattingOnUser.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
       where: {
         userId: token.uid,
       },
