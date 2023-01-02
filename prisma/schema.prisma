@@ -140,6 +140,8 @@ model Message {
   id         Int      @id @default(autoincrement())
   message    String
   timeStamp  String
+  image      String
+  userName   String
   chatroom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
   chatRoomId Int
   author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)

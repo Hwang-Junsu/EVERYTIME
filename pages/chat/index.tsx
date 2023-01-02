@@ -20,7 +20,12 @@ export default function Chat() {
           userList={user?.receiveFollow}
         />
       ) : null}
-      <div onClick={() => setIsOpen((props) => !props)}>채팅 추가하기</div>
+      <div
+        className="h-12 flex justify-center items-center hover:bg-blue-400 text-lg font-bold border-b-2"
+        onClick={() => setIsOpen((props) => !props)}
+      >
+        채팅 추가하기 +
+      </div>
       {data?.data?.chatrooms.map((chat) => {
         const counterMember =
           chat.chatroom.members[0].user.id === user?.id
@@ -33,7 +38,9 @@ export default function Chat() {
             chatroomId={chat.chatroom.id}
             name={counterMember.user.name}
             image={counterMember.user.image}
-            lastChat="에엥?"
+            lastChat={
+              chat.chatroom.message[chat.chatroom.message.length - 1].message
+            }
             lastTimeStamp="1시간 전"
           />
         );

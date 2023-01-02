@@ -1,18 +1,26 @@
 import Button from "@components/button";
+import { api } from "@libs/api";
 import React, { useState } from "react";
-const ChatInput = ({ userName, socket, user }) => {
+const ChatInput = ({ userName, socket, user, chatroomId }) => {
   const [chatMessage, setChatMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     socket.emit("onSend", {
       userName: user.name ? user.name : "NoName",
-      msg: chatMessage,
+      message: chatMessage,
       timeStamp: new Date().toLocaleTimeString(),
       userId: user.id,
       image: user.image,
     });
+    await api.post(`/api/chat/${chatroomId}`, {
+      msg: chatMessage,
+      timeStamp: new Date().toLocaleTimeString(),
+      image: user.image,
+    });
     setChatMessage("");
+    const chatting = document.getElementById("chatting");
+    chatting.scrollTop = chatting.scrollHeight;
   };
 
   const onChatMessageChange = (e) => {

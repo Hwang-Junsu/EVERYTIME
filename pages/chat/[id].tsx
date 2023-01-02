@@ -38,9 +38,14 @@ export default function Chat() {
       <div className="relative w-full">
         {currentSocket ? (
           <>
-            <ChatLog socket={currentSocket} user={user}></ChatLog>
+            <ChatLog
+              socket={currentSocket}
+              user={user}
+              chatroomId={router.query.id}
+            ></ChatLog>
             <ChatInput
               user={user}
+              chatroomId={router.query.id}
               userName={user?.name || "NoName"}
               socket={currentSocket}
             />
