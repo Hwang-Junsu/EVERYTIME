@@ -39,7 +39,6 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
         },
       },
     });
-    console.log(newMessage);
 
     return res.json({ ok: true, newMessage });
   }
