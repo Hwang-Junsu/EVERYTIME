@@ -61,6 +61,7 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
   useEffect(() => {
     if (media && media.length > 0) {
       const file = media[0];
+      console.log(file);
       if (file.type.includes("video")) setIsVideo(true);
       else setIsVideo(false);
       setMediaPreview(URL.createObjectURL(file));

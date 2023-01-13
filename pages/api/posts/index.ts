@@ -7,8 +7,15 @@ const secret = process.env.NEXTAUTH_SECRET;
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = await getToken({ req, secret });
-  if (!token) res.status(403).json({ message: "Not Login" });
   if (req.method === "GET") {
+    const { id } = req.query;
+    const isFirstPage = !id;
+    const pageCondition = {
+      skip: 1,
+      cursor: {
+        id: Number(id),
+      },
+    };
     const allPosts = await client.post.findMany({
       include: {
         user: {
@@ -24,6 +31,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       orderBy: {
         id: "desc",
       },
+      take: 10,
+      ...(!isFirstPage && pageCondition),
     });
 
     const allPostsIncludeIsLike = await Promise.all(
@@ -54,9 +63,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       })
     );
 
+    const length = allPosts.length;
+
     res.json({
       ok: true,
-      allPosts: allPostsIncludeIsLike,
+      allPosts: 0 < length ? allPostsIncludeIsLike : undefined,
     });
   }
   if (req.method === "POST") {
