@@ -22,7 +22,7 @@ export default function Observer({ handleIntersection }) {
 
   return (
     <div
-      className="flex items-center justify-center w-full bg-slate-200"
+      className="flex items-center justify-center w-full bg-slate-200 "
       ref={target}
     >
       <svg
