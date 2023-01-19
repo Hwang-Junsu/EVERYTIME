@@ -15,6 +15,7 @@ export default function Chat() {
         <Layout seoTitle="Chat" hasTabBar>
             {isOpen ? (
                 <ChatAddModal
+                    readonly={false}
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
                     sendUserList={user?.sendFollow}
@@ -22,7 +23,7 @@ export default function Chat() {
                 />
             ) : null}
             <div
-                className="h-12 flex justify-center items-center hover:bg-blue-400 text-lg font-bold border-b-2"
+                className="flex items-center justify-center h-12 text-lg font-bold border-b-2 hover:bg-blue-400"
                 onClick={() => setIsOpen((props) => !props)}
             >
                 채팅 추가하기 +
