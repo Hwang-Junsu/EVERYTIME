@@ -3,7 +3,7 @@ import Link from "next/link";
 import {cls} from "@libs/utils";
 import {useRouter} from "next/router";
 import Head from "next/head";
-import AddModal from "./addModal";
+import AddModal from "../modals/addModal";
 import {useSession} from "next-auth/react";
 
 interface LayoutProps {
@@ -65,7 +65,7 @@ export default function Layout({
                             <span
                                 className={cls(
                                     canGoBack ? "mx-auto" : "",
-                                    " tracking-tighter font-bold"
+                                    " tracking-tighter font-titleFont"
                                 )}
                             >
                                 {title}

@@ -1,6 +1,6 @@
 import Image from "next/legacy/image";
 import {useState} from "react";
-import PostModal from "../postModal";
+import PostModal from "../modals/postModal";
 
 interface IPostCardProps {
     postId: number;

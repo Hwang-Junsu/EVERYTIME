@@ -84,7 +84,7 @@ model Post {
   updatedAt DateTime   @updatedAt
   likes     Like[]
   comments  Comment[]
-  user      User       @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   bookmark  Bookmark[]
 }

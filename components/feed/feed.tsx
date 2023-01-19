@@ -5,10 +5,10 @@ import BasicProfile from "images/basic_profile.jpg";
 import {useMutation, useQueryClient} from "react-query";
 import {api} from "@libs/api";
 import {cls} from "@libs/utils";
-import PostModal from "./postModal";
-import Hashtags from "./feed/hashtags";
+import PostModal from "../modals/postModal";
+import Hashtags from "./hashtags";
 import {useRouter} from "next/router";
-import EditMenu from "./feed/edit";
+import EditMenu from "./edit";
 import {useSession} from "next-auth/react";
 
 interface ICount {

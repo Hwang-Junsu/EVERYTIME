@@ -1,9 +1,9 @@
 import {cls} from "@libs/utils";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
-import Input from "./input";
-import TextArea from "./textarea";
+import Input from "../common/input";
+import TextArea from "../common/textarea";
 import {useForm} from "react-hook-form";
-import Button from "./button";
+import Button from "../common/button";
 import {IEditProfile} from "types/types";
 import Image from "next/legacy/image";
 import {api} from "@libs/api";

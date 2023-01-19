@@ -1,5 +1,5 @@
-import Layout from "@components/layout";
+import Layout from "@components/common/layout";
 
 export default function Post() {
-  return <Layout seoTitle="Post">PostPage</Layout>;
+    return <Layout seoTitle="Post">PostPage</Layout>;
 }
