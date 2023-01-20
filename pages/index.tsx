@@ -59,9 +59,7 @@ function Home() {
                 []
             );
 
-            return postList.map((post: PostWithLikeAndComment) => (
-                <Feed key={post.id} {...post} />
-            ));
+            return postList.map((post) => <Feed key={post.id} post={post} />);
         }
     };
 

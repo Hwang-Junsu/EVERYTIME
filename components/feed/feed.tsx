@@ -10,20 +10,26 @@ import Hashtags from "./hashtags";
 import {useRouter} from "next/router";
 import EditMenu from "./edit";
 import {useSession} from "next-auth/react";
+import {BookmarkIcon, BubbleIcon, HeartIcon} from "@components/svg";
 
 interface ICount {
     comments: number;
     likes: number;
 }
 
-interface PostWithLikeAndComment extends Post {
-    _count: ICount;
-    user: User;
+interface IPostProps extends Post {
     isLike: boolean;
     isBookmark: boolean;
+    user: User;
+    _count: ICount;
 }
 
-export default function Feed({...post}: PostWithLikeAndComment) {
+interface IFeedProps {
+    post: IPostProps;
+    isModal?: boolean;
+}
+
+export default function Feed({post, isModal = false}: IFeedProps) {
     const {
         title,
         media,
@@ -36,6 +42,7 @@ export default function Feed({...post}: PostWithLikeAndComment) {
         isBookmark,
         hashtags,
     } = post;
+
     const router = useRouter();
     const [input, setInput] = useState<string>("");
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -103,7 +110,7 @@ export default function Feed({...post}: PostWithLikeAndComment) {
     return (
         <>
             {post && (
-                <div className="w-full p-3 space-y-3 border rounded-lg shadow-md">
+                <div className="w-full h-fit p-3 space-y-3 border rounded-lg shadow-md">
                     <header className="flex justify-between">
                         <div
                             className="flex items-center space-x-2"
@@ -149,7 +156,12 @@ export default function Feed({...post}: PostWithLikeAndComment) {
                         </div>
                     </header>
 
-                    <div className="relative w-full bg-slate-600 h-96">
+                    <div
+                        className={cls(
+                            "relative w-full bg-slate-200",
+                            isModal ? "h-60" : "h-96"
+                        )}
+                    >
                         {mediaType === "Video" ? (
                             <iframe
                                 src={media}
@@ -167,55 +179,15 @@ export default function Feed({...post}: PostWithLikeAndComment) {
                     </div>
                     <div className="flex w-full space-x-3">
                         <div onClick={onLikeClick}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill={cls("", isLikeState ? "red" : "none")}
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="cursor-pointer w-7 h-7"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                                />
-                            </svg>
+                            <HeartIcon activated={isLikeState} />
                         </div>
-                        <div onClick={setOpenPost}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="cursor-pointer w-7 h-7"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"
-                                />
-                            </svg>
-                        </div>
+                        {isModal ? null : (
+                            <div onClick={setOpenPost}>
+                                <BubbleIcon />
+                            </div>
+                        )}
                         <div onClick={onBookmarkClick}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill={cls(
-                                    "",
-                                    isBookmarkState ? "black" : "none"
-                                )}
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="cursor-pointer w-7 h-7"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-                                />
-                            </svg>
+                            <BookmarkIcon activated={isBookmarkState} />
                         </div>
                     </div>
                     <div className="text-sm font-bold">{`좋아요 ${likeCount}개`}</div>
@@ -275,8 +247,6 @@ export default function Feed({...post}: PostWithLikeAndComment) {
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
                     postId={post.id}
-                    onLikeClick={onLikeClick}
-                    addComment={addComment}
                 />
             ) : null}
         </>

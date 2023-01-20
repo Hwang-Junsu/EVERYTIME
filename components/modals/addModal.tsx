@@ -48,7 +48,6 @@ export default function AddModal({isOpen, setIsOpen}: IModalProps) {
         {
             onSuccess: () => {
                 queryClient.invalidateQueries(["posts"]);
-                queryClient.invalidateQueries(["postlist"]);
             },
         }
     );
