@@ -110,7 +110,7 @@ export default function Feed({post, isModal = false}: IFeedProps) {
     return (
         <>
             {post && (
-                <div className="w-full h-fit p-3 space-y-3 border rounded-lg shadow-md">
+                <div className="w-full h-fit p-3 space-y-3 border rounded-2xl shadow-md bg-white">
                     <header className="flex justify-between">
                         <div
                             className="flex items-center space-x-2"
@@ -119,13 +119,13 @@ export default function Feed({post, isModal = false}: IFeedProps) {
                             {user && (
                                 <Image
                                     src={user.image || BasicProfile}
-                                    width={48}
-                                    height={48}
+                                    width={55}
+                                    height={55}
                                     alt="profileImage"
                                     className="w-8 h-8 rounded-full cursor-pointer bg-slate-500"
                                 />
                             )}
-                            <h1 className="font-bold cursor-pointer">
+                            <h1 className="font-bold cursor-pointer text-lg">
                                 {user.name}
                             </h1>
                         </div>
@@ -158,10 +158,31 @@ export default function Feed({post, isModal = false}: IFeedProps) {
 
                     <div
                         className={cls(
-                            "relative w-full bg-slate-200",
-                            isModal ? "h-60" : "h-96"
+                            "relative rounded-2xl w-full overflow-hidden group",
+                            isModal ? "h-[380px]" : "h-[500px]"
                         )}
                     >
+                        <div className=" translate-y-56 group-hover:translate-y-0 space-y-2 transition-transform ease-in-out duration-300 absolute z-10 w-full bg-slate-300 opacity-80 bottom-0 p-4">
+                            <article>
+                                <div className="space-x-2">
+                                    <span className="text-sm font-bold text-gray-500 cursor-pointer">
+                                        {user.name}
+                                    </span>
+                                    <div className="inline-block text-sm text-gray-900">
+                                        {title}
+                                    </div>
+                                </div>
+                                <div>{content}</div>
+                            </article>
+                            <div className="text-sm font-bold">{`좋아요 ${likeCount}개`}</div>
+                            <Hashtags hashtags={hashtags} />
+                            <div
+                                onClick={setOpenPost}
+                                className="text-sm tracking-tighter text-gray-500 cursor-pointer"
+                            >
+                                {`댓글 ${_count.comments}개 모두 보기`}
+                            </div>
+                        </div>
                         {mediaType === "Video" ? (
                             <iframe
                                 src={media}
@@ -171,13 +192,13 @@ export default function Feed({post, isModal = false}: IFeedProps) {
                         ) : (
                             <Image
                                 src={media}
-                                className="object-contain "
+                                className="object-cover"
                                 alt="postImage"
                                 layout="fill"
                             />
                         )}
                     </div>
-                    <div className="flex w-full space-x-3">
+                    <div className="flex space-x-3">
                         <div onClick={onLikeClick}>
                             <HeartIcon activated={isLikeState} />
                         </div>
@@ -189,25 +210,6 @@ export default function Feed({post, isModal = false}: IFeedProps) {
                         <div onClick={onBookmarkClick}>
                             <BookmarkIcon activated={isBookmarkState} />
                         </div>
-                    </div>
-                    <div className="text-sm font-bold">{`좋아요 ${likeCount}개`}</div>
-                    <article>
-                        <div className="space-x-2">
-                            <span className="text-sm font-bold text-gray-500 cursor-pointer">
-                                {user.name}
-                            </span>
-                            <div className="inline-block text-sm text-gray-900">
-                                {title}
-                            </div>
-                        </div>
-                        <div>{content}</div>
-                    </article>
-                    <Hashtags hashtags={hashtags} />
-                    <div
-                        onClick={setOpenPost}
-                        className="text-sm tracking-tighter text-gray-500 cursor-pointer"
-                    >
-                        {`댓글 ${_count.comments}개 모두 보기`}
                     </div>
                     <form className="relative ">
                         <input

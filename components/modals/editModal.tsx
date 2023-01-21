@@ -10,6 +10,7 @@ import {api} from "@libs/api";
 import {useMutation} from "react-query";
 import {useSession} from "next-auth/react";
 import {useQueryClient} from "react-query";
+import CommonModal from "./commonModal";
 
 interface IModalProps {
     isOpen: boolean;
@@ -74,80 +75,64 @@ export default function EditModal({isOpen, setIsOpen}: IModalProps) {
     return (
         <>
             {isOpen ? (
-                <div
-                    onClick={onClick}
-                    role="presentation"
-                    className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
-                >
-                    <div
-                        onClick={(e) => e.stopPropagation()}
-                        role="presentation"
-                        className={cls(
-                            `p-5 w-[480px] h-[650px] bg-white rounded-md overflow-hidden
-`
-                        )}
+                <CommonModal onClick={onClick}>
+                    <form
+                        className="space-y-2 h-[650px] pb-20 overflow-scroll scrollbar-none"
+                        onSubmit={handleSubmit(onValid)}
                     >
-                        <form
-                            className="space-y-2 h-[650px] pb-20 overflow-scroll scrollbar-none"
-                            onSubmit={handleSubmit(onValid)}
-                        >
-                            {mediaPreview ? (
-                                <div className="relative mx-auto overflow-hidden rounded-full shadow-lg w-60 h-60">
-                                    <Image
-                                        alt="imagePreview"
-                                        src={mediaPreview}
-                                        layout="fill"
-                                        className="object-cover"
-                                    />
-                                </div>
-                            ) : (
-                                <label
-                                    htmlFor="upload"
-                                    className="relative flex flex-col items-center justify-center p-10 mx-auto border-4 border-dotted rounded-full w-60 h-60 "
-                                >
-                                    <input
-                                        {...register("profileImage")}
-                                        id="upload"
-                                        type="file"
-                                        className="hidden "
-                                    />
-                                    <div>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            strokeWidth="1.5"
-                                            stroke="currentColor"
-                                            className="w-20 h-20"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div className="text-2xl font-bold tracking-tighter text-center">
-                                        UPLOAD IMAGE
-                                    </div>
-                                </label>
-                            )}
-                            <div className="space-y-2">
-                                <span>Nickname</span>
-                                <Input
-                                    type="text"
-                                    register={register("name")}
+                        {mediaPreview ? (
+                            <div className="relative mx-auto overflow-hidden rounded-full shadow-lg w-60 h-60">
+                                <Image
+                                    alt="imagePreview"
+                                    src={mediaPreview}
+                                    layout="fill"
+                                    className="object-cover"
                                 />
                             </div>
-                            <div>
-                                <span>Introduce</span>
-                                <TextArea register={register("introduce")} />
-                            </div>
+                        ) : (
+                            <label
+                                htmlFor="upload"
+                                className="relative flex flex-col items-center justify-center p-10 mx-auto border-4 border-dotted rounded-full w-60 h-60 "
+                            >
+                                <input
+                                    {...register("profileImage")}
+                                    id="upload"
+                                    type="file"
+                                    className="hidden "
+                                />
+                                <div>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth="1.5"
+                                        stroke="currentColor"
+                                        className="w-20 h-20"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+                                        />
+                                    </svg>
+                                </div>
+                                <div className="text-2xl font-bold tracking-tighter text-center">
+                                    UPLOAD IMAGE
+                                </div>
+                            </label>
+                        )}
+                        <div className="space-y-2">
+                            <span>Nickname</span>
+                            <Input type="text" register={register("name")} />
+                        </div>
+                        <div>
+                            <span>Introduce</span>
+                            <TextArea register={register("introduce")} />
+                        </div>
 
-                            <Button text="Edit Profile" />
-                        </form>
-                    </div>
-                </div>
+                        <Button text="Edit Profile" />
+                    </form>
+                </CommonModal>
             ) : null}
         </>
     );

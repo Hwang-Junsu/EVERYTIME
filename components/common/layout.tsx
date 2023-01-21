@@ -38,11 +38,11 @@ export default function Layout({
     const [isOpen, setIsOpen] = useState(false);
     return (
         <>
-            <div>
+            <div className=" bg-indigo-200 min-h-screen">
                 <Head>
                     <title>{`${seoTitle} | JUNSTAGRAM`}</title>
                 </Head>
-                <div className="fixed top-0 z-50 flex items-center justify-center w-full h-12 max-w-xl px-10 text-lg font-medium text-gray-800 bg-white border-b">
+                <div className="fixed z-[999] bg-gradient-to-r from-indigo-400 via-indigo-600 to-pink-500 top-0 flex items-center justify-center w-full h-16 max-w-xl px-10 text-lg font-medium text-gray-800 bg-white border-b">
                     {canGoBack ? (
                         <button
                             onClick={onClick}
@@ -53,7 +53,7 @@ export default function Layout({
                     ) : null}
                     <div
                         className={cls(
-                            "w-full flex",
+                            "w-full flex text-white",
                             title === "JUNSTAGRAM"
                                 ? "justify-between"
                                 : "justify-center"
@@ -79,11 +79,11 @@ export default function Layout({
                         ) : null}
                     </div>
                 </div>
-                <div className={cls("pt-12", hasTabBar ? "pb-24" : "")}>
+                <div className={cls("pt-16", hasTabBar ? "pb-24" : "")}>
                     {children}
                 </div>
                 {hasTabBar ? (
-                    <nav className="fixed bottom-0 flex justify-between w-full max-w-xl px-10 pt-3 pb-5 text-xs text-gray-700 bg-white border-t">
+                    <nav className="z-[999] fixed bottom-0 flex justify-between w-full max-w-xl px-10 pt-3 pb-5 text-xs text-gray-700 bg-white border-t">
                         <Link href="/">
                             <span
                                 className={cls(
