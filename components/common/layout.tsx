@@ -27,7 +27,7 @@ export default function Layout({
     hasTabBar,
     children,
     seoTitle,
-    title = "JUNSTAGRAM",
+    title = "EVERYTIME",
 }: LayoutProps) {
     const router = useRouter();
     const {data} = useSession();
@@ -38,11 +38,11 @@ export default function Layout({
     const [isOpen, setIsOpen] = useState(false);
     return (
         <>
-            <div className=" bg-indigo-200 min-h-screen">
+            <div className=" min-h-screen">
                 <Head>
-                    <title>{`${seoTitle} | JUNSTAGRAM`}</title>
+                    <title>{`${seoTitle} | EVERYTIME`}</title>
                 </Head>
-                <div className="fixed z-[999] bg-gradient-to-r from-indigo-400 via-indigo-600 to-pink-500 top-0 flex items-center justify-center w-full h-16 max-w-xl px-10 text-lg font-medium text-gray-800 bg-white border-b">
+                <div className="fixed z-[999] bg-gradient-to-r from-indigo-400 to-indigo-600 top-0 flex items-center justify-center w-full h-16 max-w-xl px-10 text-lg font-medium text-gray-800 bg-white border-b">
                     {canGoBack ? (
                         <button
                             onClick={onClick}
@@ -54,7 +54,7 @@ export default function Layout({
                     <div
                         className={cls(
                             "w-full flex text-white",
-                            title === "JUNSTAGRAM"
+                            title === "EVERYTIME"
                                 ? "justify-between"
                                 : "justify-center"
                         )}
@@ -63,13 +63,13 @@ export default function Layout({
                             <span
                                 className={cls(
                                     canGoBack ? "mx-auto" : "",
-                                    " tracking-tighter font-titleFont cursor-pointer"
+                                    " tracking-tighter cursor-pointer text-2xl"
                                 )}
                             >
                                 {title}
                             </span>
                         </Link>
-                        {title === "JUNSTAGRAM" ? (
+                        {title === "EVERYTIME" ? (
                             <span
                                 className="cursor-pointer"
                                 onClick={() => router.push("/settings")}
@@ -83,14 +83,14 @@ export default function Layout({
                     {children}
                 </div>
                 {hasTabBar ? (
-                    <nav className="z-[999] fixed bottom-0 flex justify-between w-full max-w-xl px-10 pt-3 pb-5 text-xs text-gray-700 bg-white border-t">
+                    <nav className="z-[999] fixed bottom-0 flex justify-between items-center w-full max-w-xl px-10 pt-3 pb-5 text-xs text-white bg-blue-300 border-t">
                         <Link href="/">
                             <span
                                 className={cls(
                                     "flex flex-col items-center space-y-2 ",
                                     router.pathname === "/"
-                                        ? "text-blue-500"
-                                        : "hover:text-gray-500 transition-colors"
+                                        ? "text-indigo-500"
+                                        : "hover:text-indigo-500 transition-colors"
                                 )}
                             >
                                 <HomeIcon />
@@ -100,7 +100,11 @@ export default function Layout({
                             role="presentation"
                             onClick={() => setIsOpen((props) => !props)}
                         >
-                            <span>
+                            <span
+                                className={cls(
+                                    "hover:text-indigo-500 transition-colors"
+                                )}
+                            >
                                 <AddIcon />
                             </span>
                         </div>
@@ -109,8 +113,8 @@ export default function Layout({
                                 className={cls(
                                     "flex flex-col items-center space-y-2 ",
                                     router.pathname === "/chat"
-                                        ? "text-blue-500"
-                                        : "hover:text-gray-500 transition-colors"
+                                        ? "text-indigo-500"
+                                        : "hover:text-indigo-500 transition-colors"
                                 )}
                             >
                                 <ChatIcon />
@@ -122,8 +126,8 @@ export default function Layout({
                                     "flex flex-col items-center space-y-2 ",
                                     router.asPath ===
                                         `/profile/${data?.user?.id}`
-                                        ? "text-blue-500"
-                                        : "hover:text-gray-500 transition-colors"
+                                        ? "text-indigo-500"
+                                        : "hover:text-indigo-500 transition-colors"
                                 )}
                             >
                                 <ProfileIcon />

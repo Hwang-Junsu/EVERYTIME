@@ -7,6 +7,7 @@ import {Post, User} from "@prisma/client";
 import {useFetchPosts} from "hooks/useFetchPosts";
 import Observer from "@components/common/observer";
 import {dehydrate, QueryClient} from "react-query";
+import RecentChats from "@components/chat/recentChats";
 
 interface ICount {
     comments: number;
@@ -69,6 +70,7 @@ function Home() {
 
     return (
         <Layout seoTitle="Main" hasTabBar>
+            <RecentChats />
             <main className="w-full space-y-3 p-7">
                 {renderPostsList()}
                 {hasNextPage && (

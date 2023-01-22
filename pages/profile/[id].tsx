@@ -4,7 +4,7 @@ import {api} from "@libs/api";
 import {cls} from "@libs/utils";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {useQuery, useMutation, useQueryClient} from "react-query";
+import {useQuery} from "react-query";
 import {useSession} from "next-auth/react";
 import ChatAddModal from "@components/chat/chatAddModal";
 import PostIcon from "@components/svg/postIcon";
@@ -32,7 +32,7 @@ export default function UserProfile() {
             <Layout seoTitle="Profile" hasTabBar>
                 {isLoading ? null : (
                     <>
-                        <header className="p-8 space-y-2 border-b-[1px]">
+                        <header className="p-8 space-y-2">
                             {data && (
                                 <ProfileCard
                                     image={data.data.user.image}
@@ -43,60 +43,45 @@ export default function UserProfile() {
                                 />
                             )}
                         </header>
-                        <section className="px-3 py-2 border-b-[1px] flex items-center justify-center mb-1">
-                            <table className="w-full">
-                                <thead className="">
-                                    <tr className="text-sm text-center text-gray-500">
-                                        <th>게시글</th>
-                                        <th>북마크</th>
-                                        <th>팔로우</th>
-                                        <th>팔로잉</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr className="text-center">
-                                        <td>
-                                            {data?.data?.user?._count?.post}
-                                        </td>
-                                        <td>
-                                            {data?.data?.user?._count?.bookmark}
-                                        </td>
-
-                                        <td
-                                            className="cursor-pointer "
-                                            onClick={() =>
-                                                setFollowListOpen(
-                                                    (props) => !props
-                                                )
-                                            }
-                                        >
-                                            {
-                                                data?.data?.user?._count
-                                                    ?.receiveFollow
-                                            }
-                                        </td>
-                                        <td
-                                            className="cursor-pointer "
-                                            onClick={() =>
-                                                setFollowListOpen(
-                                                    (props) => !props
-                                                )
-                                            }
-                                        >
-                                            {
-                                                data?.data?.user?._count
-                                                    ?.sendFollow
-                                            }
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <section className="px-3 py-2 flex items-center flex-row  justify-around mb-1">
+                            <div className="p-4 bg-orange-200 rounded-full flex flex-col justify-center items-center shadow-lg">
+                                <span>게시글</span>
+                                <span>{data?.data?.user?._count?.post}</span>
+                            </div>
+                            <div className="p-4 bg-blue-200 rounded-full flex flex-col justify-center items-center shadow-lg">
+                                <span>북마크</span>
+                                <span>
+                                    {data?.data?.user?._count?.bookmark}
+                                </span>
+                            </div>
+                            <div
+                                className="cursor-pointer p-4 bg-indigo-200 rounded-full flex flex-col justify-center items-center shadow-lg"
+                                onClick={() =>
+                                    setFollowListOpen((props) => !props)
+                                }
+                            >
+                                <span>팔로우</span>
+                                <span>
+                                    {data?.data?.user?._count?.receiveFollow}
+                                </span>
+                            </div>
+                            <div
+                                className="cursor-pointer p-4 bg-pink-200 rounded-full flex flex-col justify-center items-center shadow-lg "
+                                onClick={() =>
+                                    setFollowListOpen((props) => !props)
+                                }
+                            >
+                                <span>팔로잉</span>
+                                <span>
+                                    {data?.data?.user?._count?.sendFollow}
+                                </span>
+                            </div>
                         </section>
-                        <section className="flex w-full h-12 mb-2 space-x-2">
+                        <section className="flex w-full h-12 space-x-2">
                             <div
                                 className={cls(
                                     "border-b-2 flex-grow flex items-center justify-center",
-                                    isMyPosts ? "border-blue-400" : ""
+                                    isMyPosts ? "border-indigo-400" : ""
                                 )}
                                 onClick={() => setIsMyPosts(true)}
                                 role="presentation"
@@ -107,7 +92,7 @@ export default function UserProfile() {
                                 <div
                                     className={cls(
                                         "border-b-2 flex-grow flex items-center justify-center",
-                                        !isMyPosts ? "border-blue-400" : ""
+                                        !isMyPosts ? "border-indigo-400" : ""
                                     )}
                                     onClick={() => setIsMyPosts(false)}
                                     role="presentation"

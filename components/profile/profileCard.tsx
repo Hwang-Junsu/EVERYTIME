@@ -38,14 +38,14 @@ export default function ProfileCard({
     return (
         <>
             <section className="flex">
-                <div className="relative flex-shrink-0 w-16 h-16 mr-8 overflow-hidden rounded-full object-fit bg-slate-500">
+                <div className="relative flex-shrink-0 w-20 h-20 mr-8 overflow-hidden rounded-full object-fit bg-slate-500">
                     <Image
                         src={image || BasicProfile}
                         layout="fill"
                         alt="profileImage"
                     />
                 </div>
-                <div className="w-full space-y-1">
+                <div className="w-full space-y-1 text-lg">
                     <div>
                         <p>{name || "NoName"}</p>
                     </div>
@@ -65,7 +65,7 @@ export default function ProfileCard({
                         </div>
                     )}
                 </div>
-            </section>{" "}
+            </section>
             {isEditOpen ? (
                 <EditModal isOpen={isEditOpen} setIsOpen={setIsEditOpen} />
             ) : null}

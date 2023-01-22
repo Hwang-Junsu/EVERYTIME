@@ -20,7 +20,7 @@ export default function PostList({userId, isMyPosts}) {
         refetch();
     }, [router.query.id, refetch]);
     return (
-        <section className="grid grid-cols-3 grid-rows-3 gap-1">
+        <section className="grid grid-cols-3 grid-rows-3 gap-2 p-2 bg-indigo-200 shadow-inner">
             {isMyPosts ? (
                 <>
                     {userData?.data?.allPosts.map((post) => (

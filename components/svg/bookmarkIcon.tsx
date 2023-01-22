@@ -3,15 +3,15 @@ import {motion} from "framer-motion";
 const activatedSvg = {
     start: {fill: "rgba(3,138,255,0)", stroke: "black"},
     end: {
-        fill: "rgba(3,138,255,1)",
-        stroke: "rgba(3,138,255,1)",
+        fill: "rgba(159, 124, 255, 1)",
+        stroke: "rgba(159, 124, 255, 1)",
     },
 };
 
 const deactivatedSvg = {
     start: {
-        fill: "rgba(3,138,255,1)",
-        stroke: "rgba(3,138,255,1)",
+        fill: "rgba(159, 124, 255, 1)",
+        stroke: "rgba(159, 124, 255, 1)",
     },
     end: {fill: "rgba(3,138,255,0)", stroke: "black"},
 };

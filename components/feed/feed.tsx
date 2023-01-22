@@ -110,7 +110,7 @@ export default function Feed({post, isModal = false}: IFeedProps) {
     return (
         <>
             {post && (
-                <div className="w-full h-fit p-3 space-y-3 border rounded-2xl shadow-md bg-white">
+                <div className="w-full h-fit p-3 space-y-3 border rounded-2xl shadow-md bg-indigo-100">
                     <header className="flex justify-between">
                         <div
                             className="flex items-center space-x-2"

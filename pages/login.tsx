@@ -34,15 +34,15 @@ export default function Login() {
     return (
         <>
             <Head>
-                <title>JUNSTAGRAM</title>
+                <title>EVERYTIME</title>
             </Head>
-            <div className="flex flex-col items-center justify-center h-screen px-4">
+            <div className="flex flex-col items-center justify-center h-screen px-4 bg-indigo-200">
                 <form
                     onSubmit={handleSubmit(onValid)}
-                    className="flex flex-col w-3/4 p-3 py-8 mx-auto mb-4 space-y-10 border-2 border-solid"
+                    className="flex flex-col w-3/4 p-3 py-8 mx-auto mb-4 space-y-10"
                 >
-                    <h1 className="font-bold tracking-[-3px] text-4xl text-center font-titleFont">
-                        JUNSTAGRAM
+                    <h1 className="font-bold tracking-[-3px] text-4xl text-center">
+                        EVERYTIME
                     </h1>
                     <div className="space-y-5">
                         <Input
@@ -58,12 +58,12 @@ export default function Login() {
                     </div>
                     <Button text="로그인" large />
                     <Link href="/join">
-                        <div className="font-bold text-center cursor-pointer hover:underline hover:text-blue-500">
+                        <div className="font-bold text-center cursor-pointer hover:underline hover:text-indigo-500">
                             계정이 없으신가요?
                         </div>
                     </Link>
                 </form>
-                <div className="w-3/4 p-3 mx-auto space-y-2 border-2 border-solid">
+                <div className="w-3/4 p-3 mx-auto space-y-2 ">
                     <div className="flex flex-col items-center justify-center w-full space-y-2">
                         <button
                             onClick={onGoogleLogin}

@@ -19,7 +19,7 @@ export default function PostCard({
     return (
         <>
             <div
-                className="cursor-pointer relative h-44 rounded-2xl overflow-hidden shadow-md object-cover"
+                className="cursor-pointer relative h-44 rounded-2xl overflow-hidden shadow-md object-fit"
                 onClick={() => setIsOpen((props) => !props)}
             >
                 {mediaType === "Image" ? (
