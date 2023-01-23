@@ -162,7 +162,14 @@ export default function Feed({post, isModal = false}: IFeedProps) {
                             isModal ? "h-[380px]" : "h-[500px]"
                         )}
                     >
-                        <div className=" translate-y-56 group-hover:translate-y-0 space-y-2 transition-transform ease-in-out duration-300 absolute z-10 w-full bg-slate-300 opacity-80 bottom-0 p-4">
+                        <div
+                            className={cls(
+                                " translate-y-56 group-hover:translate-y-0 transition-transform ease-in-out duration-300 absolute z-10 w-full bg-slate-300 opacity-80 bottom-0",
+                                mediaType === "Video"
+                                    ? "space-y-0 px-4 py-2"
+                                    : "space-y-2 p-4"
+                            )}
+                        >
                             <article>
                                 <div className="space-x-2">
                                     <span className="text-sm font-bold text-gray-500 cursor-pointer">

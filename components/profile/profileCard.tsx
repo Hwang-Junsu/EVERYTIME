@@ -37,34 +37,32 @@ export default function ProfileCard({
 
     return (
         <>
-            <section className="flex">
-                <div className="relative flex-shrink-0 w-20 h-20 mr-8 overflow-hidden rounded-full object-fit bg-slate-500">
+            <section className="flex flex-col items-center justify-center space-y-1">
+                <div className="relative w-20 h-20 overflow-hidden rounded-full object-fit bg-slate-500">
                     <Image
                         src={image || BasicProfile}
                         layout="fill"
                         alt="profileImage"
                     />
                 </div>
-                <div className="w-full space-y-1 text-lg">
-                    <div>
-                        <p>{name || "NoName"}</p>
-                    </div>
-                    <div className="text-sm text-gray-600 whitespace-nowrap">
-                        {introduce || ""}
-                    </div>
-                    {id === token?.user?.id ? (
-                        <div
-                            className="w-2/3"
-                            onClick={() => setIsEditOpen((props) => !props)}
-                        >
-                            <Button text="프로필 편집" />
-                        </div>
-                    ) : (
-                        <div className="w-2/3" onClick={() => onFollow()}>
-                            <Button text={isFollow ? "Unfollow" : "Follow"} />
-                        </div>
-                    )}
+                <div className="text-2xl">
+                    <p>{name || "NoName"}</p>
                 </div>
+                <div className="text-md text-gray-600 whitespace-nowrap">
+                    {introduce || ""}
+                </div>
+                {id === token?.user?.id ? (
+                    <div
+                        className="w-2/3"
+                        onClick={() => setIsEditOpen((props) => !props)}
+                    >
+                        <Button text="프로필 편집" />
+                    </div>
+                ) : (
+                    <div className="w-2/3" onClick={() => onFollow()}>
+                        <Button text={isFollow ? "Unfollow" : "Follow"} />
+                    </div>
+                )}
             </section>
             {isEditOpen ? (
                 <EditModal isOpen={isEditOpen} setIsOpen={setIsEditOpen} />

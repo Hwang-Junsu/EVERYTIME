@@ -1,7 +1,7 @@
 import Layout from "@components/common/layout";
 import PostList from "@components/profile/postList";
 import {api} from "@libs/api";
-import {cls} from "@libs/utils";
+import {cls, convertUnitToKilo} from "@libs/utils";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {useQuery} from "react-query";
@@ -46,12 +46,18 @@ export default function UserProfile() {
                         <section className="px-3 py-2 flex items-center flex-row  justify-around mb-1">
                             <div className="p-4 bg-orange-200 rounded-full flex flex-col justify-center items-center shadow-lg">
                                 <span>게시글</span>
-                                <span>{data?.data?.user?._count?.post}</span>
+                                <span>
+                                    {convertUnitToKilo(
+                                        data?.data?.user?._count?.post
+                                    )}
+                                </span>
                             </div>
                             <div className="p-4 bg-blue-200 rounded-full flex flex-col justify-center items-center shadow-lg">
                                 <span>북마크</span>
                                 <span>
-                                    {data?.data?.user?._count?.bookmark}
+                                    {convertUnitToKilo(
+                                        data?.data?.user?._count?.bookmark
+                                    )}
                                 </span>
                             </div>
                             <div
@@ -62,7 +68,9 @@ export default function UserProfile() {
                             >
                                 <span>팔로우</span>
                                 <span>
-                                    {data?.data?.user?._count?.receiveFollow}
+                                    {convertUnitToKilo(
+                                        data?.data?.user?._count?.receiveFollow
+                                    )}
                                 </span>
                             </div>
                             <div
@@ -73,7 +81,9 @@ export default function UserProfile() {
                             >
                                 <span>팔로잉</span>
                                 <span>
-                                    {data?.data?.user?._count?.sendFollow}
+                                    {convertUnitToKilo(
+                                        data?.data?.user?._count?.sendFollow
+                                    )}
                                 </span>
                             </div>
                         </section>

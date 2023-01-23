@@ -40,7 +40,7 @@ export default function ChatAddModal({
                 <div
                     onClick={onClick}
                     role="presentation"
-                    className="fixed z-[999] top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+                    className="fixed z-[9999] top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
                 >
                     <div
                         onClick={(e) => e.stopPropagation()}

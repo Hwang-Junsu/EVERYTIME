@@ -5,7 +5,7 @@ export default function CommonModal({children, onClick}) {
         <div
             onClick={onClick}
             role="presentation"
-            className="fixed z-[9999] top-0 left-0 flex items-center justify-center w-full h-screen bg-black bg-opacity-50"
+            className="fixed z-[9999] -top-3 left-0 flex items-center justify-center w-full h-screen bg-black bg-opacity-50"
         >
             <div
                 onClick={(e) => e.stopPropagation()}

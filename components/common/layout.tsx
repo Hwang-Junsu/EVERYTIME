@@ -38,7 +38,7 @@ export default function Layout({
     const [isOpen, setIsOpen] = useState(false);
     return (
         <>
-            <div className=" min-h-screen">
+            <div className="w-full max-w-xl mx-auto min-h-screen">
                 <Head>
                     <title>{`${seoTitle} | EVERYTIME`}</title>
                 </Head>
@@ -79,11 +79,11 @@ export default function Layout({
                         ) : null}
                     </div>
                 </div>
-                <div className={cls("pt-16", hasTabBar ? "pb-24" : "")}>
+                <div className={cls("pt-16", hasTabBar ? "pb-16" : "")}>
                     {children}
                 </div>
                 {hasTabBar ? (
-                    <nav className="z-[999] fixed bottom-0 flex justify-between items-center w-full max-w-xl px-10 pt-3 pb-5 text-xs text-white bg-blue-300 border-t">
+                    <nav className="z-[999] fixed bottom-0 h-16 flex justify-between items-center w-full max-w-xl px-10 pt-3 pb-5 text-xs text-white bg-blue-300 border-t">
                         <Link href="/">
                             <span
                                 className={cls(
