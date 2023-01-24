@@ -212,13 +212,12 @@ export default function AddModal({isOpen, setIsOpen}: IModalProps) {
         <>
             {isOpen ? (
                 <CommonModal onClick={onClick}>
-                    {" "}
                     <form
                         className="space-y-2 h-[650px] pb-20 overflow-scroll scrollbar-none"
                         onSubmit={handleSubmit(onValid)}
                     >
                         {mediaPreview ? (
-                            <div className="relative object-cover w-full shadow-lg h-60">
+                            <div className="mx-auto relative object-fit w-[400px] shadow-lg h-60">
                                 {isVideo ? (
                                     <iframe
                                         src={mediaPreview}

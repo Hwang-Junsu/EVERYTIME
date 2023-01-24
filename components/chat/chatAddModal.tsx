@@ -64,7 +64,7 @@ export default function ChatAddModal({
                                     key={user.receiveUser.id}
                                     className="px-10 py-3"
                                 >
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-around">
                                         <div className="relative w-12 h-12 overflow-hidden rounded-full">
                                             <Image
                                                 src={user.receiveUser.image}
@@ -113,7 +113,7 @@ export default function ChatAddModal({
                                     key={user.sendUser.id}
                                     className="px-10 py-3"
                                 >
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-around">
                                         <div className="relative w-12 h-12 overflow-hidden rounded-full">
                                             <Image
                                                 src={user.sendUser.image}

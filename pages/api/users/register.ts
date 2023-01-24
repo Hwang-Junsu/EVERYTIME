@@ -5,16 +5,18 @@ import {NextApiRequest, NextApiResponse} from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     const {
-        body: {email, name, password},
+        body: {email, name, password, passwordCheck},
     } = req;
 
     const existEmail = Boolean(await client.user.findUnique({where: {email}}));
 
     if (existEmail) {
-        return res.status(403).end();
+        return res.status(409).end();
     }
-    const originalHash =
-        "$2a$10$7h/0SQ4FXRG5eX3602o3/.aO.RYkxKuhGkzvIXHLUiMJlFt1P.6Pe";
+    if (password !== passwordCheck) {
+        return res.status(400).end();
+    }
+    const originalHash = process.env.ORIGINAL_HASH;
 
     const hashedPassowrd = await bcrypt.hash(password, originalHash);
     await client.user.create({

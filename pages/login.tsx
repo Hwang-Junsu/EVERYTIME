@@ -7,6 +7,7 @@ import {useForm} from "react-hook-form";
 import {ILoginRequest} from "types/types";
 import {signIn} from "next-auth/react";
 import SignLayout from "@components/common/signLayout";
+import Swal from "sweetalert2";
 
 export default function Login() {
     const {register, handleSubmit} = useForm<ILoginRequest>();
@@ -17,6 +18,9 @@ export default function Login() {
             redirect: false,
         });
         if (response?.ok) router.push("/");
+        else {
+            Swal.fire("이메일과 비밀번호를 확인해주세요");
+        }
     };
     const onGoogleLogin = async () => {
         await signIn("google", {
@@ -38,10 +42,10 @@ export default function Login() {
                 <title>EVERYTIME</title>
             </Head>
             <SignLayout>
-                <div className="flex flex-col items-center justify-center h-screen px-4 ">
+                <div className="max-w-md flex flex-col items-center justify-center h-screen px-4 ">
                     <form
                         onSubmit={handleSubmit(onValid)}
-                        className="flex flex-col w-3/4 p-3 py-8 mx-auto mb-4 space-y-10"
+                        className="flex flex-col p-3 py-8 mx-auto mb-4 space-y-10"
                     >
                         <h1 className="font-bold tracking-[-3px] text-4xl text-center">
                             EVERYTIME

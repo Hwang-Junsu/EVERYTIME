@@ -5,7 +5,7 @@ import {useRouter} from "next/router";
 import {useQuery} from "react-query";
 
 export default function RecentChats() {
-    const {data} = useQuery(["chat"], () => api.get("/api/chat?count=5"));
+    const {data} = useQuery(["chat"], () => api.get("/api/chat?count=7"));
     const router = useRouter();
     const {user} = useUser();
 
@@ -13,7 +13,7 @@ export default function RecentChats() {
         <section className="px-5 pt-5 space-y-2">
             <p className="text-bold text-xl">Recent Chats</p>
             {data && (
-                <div className="flex justify-items-start">
+                <div className="flex justify-items-start space-x-5">
                     {data?.data?.chatrooms.map((chat) => {
                         const counterMember =
                             chat.chatroom.members[0].user.id === user?.id
@@ -21,7 +21,7 @@ export default function RecentChats() {
                                 : chat.chatroom.members[0];
                         return (
                             <div
-                                key={chat}
+                                key={chat.chatroom.id}
                                 className="flex justify-center items-center flex-col space-y-1"
                                 onClick={() =>
                                     router.push({
