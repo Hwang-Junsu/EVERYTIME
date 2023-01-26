@@ -227,7 +227,12 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
                     allow="autoplay"
                   />
                 ) : (
-                  <Image alt="imagePreview" src={mediaPreview} layout="fill" />
+                  <Image
+                    alt="imagePreview"
+                    src={mediaPreview}
+                    layout="fill"
+                    className="object-contain"
+                  />
                 )}
               </div>
             ) : (

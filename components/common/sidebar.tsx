@@ -13,8 +13,11 @@ export default function Sidebar() {
 
   return (
     <>
-      <nav className="z-[999] fixed top-0 left-0 h-screen hidden lg:flex flex-col justify-start space-y-10 w-[250px] max-w-xl px-10 pt-3 pb-5 text-xs text-white bg-indigo-400 border-t">
-        <div className="mt-4 text-3xl">EVERYTIME</div>
+      <nav
+        className="z-[999] fixed top-0 left-0 h-screen hidden lg:flex flex-col justify-start space-y-10 w-[250px]
+       max-w-xl px-10 pt-3 pb-5 text-xs bg-gradient-to-b text-white from-indigo-400 to-indigo-600 border-t"
+      >
+        <div className="mt-4 text-3xl tracking-tighter">EVERYTIME</div>
         <Link href="/">
           <span
             className={cls(

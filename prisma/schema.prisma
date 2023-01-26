@@ -33,6 +33,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -41,6 +42,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model User {
@@ -87,6 +90,8 @@ model Post {
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   bookmark  Bookmark[]
+
+  @@index([userId])
 }
 
 model Comment {
@@ -98,6 +103,8 @@ model Comment {
   postId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
+
+  @@index([userId, postId])
 }
 
 model Like {
@@ -108,6 +115,8 @@ model Like {
   postId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
+
+  @@index([userId, postId])
 }
 
 model Follow {
@@ -118,6 +127,8 @@ model Follow {
   receiveUser   User     @relation(name: "receiveFollow", fields: [receiveUserId], references: [id], onDelete: Cascade)
   sendUserId    String
   receiveUserId String
+
+  @@index([sendUserId, receiveUserId])
 }
 
 model Bookmark {
@@ -128,6 +139,8 @@ model Bookmark {
   postId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId, postId])
 }
 
 model ChatRoom {
@@ -147,6 +160,8 @@ model Message {
   author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   updatedAt  DateTime @updatedAt
+
+  @@index([userId, chatRoomId])
 }
 
 model ChattingOnUser {
@@ -158,4 +173,5 @@ model ChattingOnUser {
   updatedAt  DateTime @updatedAt
 
   @@id([userId, chatroomId])
+  @@index([userId, chatroomId])
 }
