@@ -21,21 +21,21 @@ interface PostWithLikeAndComment extends Post {
   isBookmark: boolean;
 }
 
-export async function getServerSideProps() {
-  const queryFn = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?id=`);
-    const data = await res.json();
-    return data;
-  };
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery(["posts"], queryFn);
+// export async function getServerSideProps() {
+//   const queryFn = async () => {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?id=`);
+//     const data = await res.json();
+//     return data;
+//   };
+//   const queryClient = new QueryClient();
+//   await queryClient.prefetchQuery(["posts"], queryFn);
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-}
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// }
 function Home() {
   const { data, hasNextPage, fetchNextPage } = useFetchPosts();
   const { status } = useSession();
