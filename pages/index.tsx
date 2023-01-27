@@ -6,7 +6,7 @@ import { useRouter } from "next/dist/client/router";
 import { Post, User } from "@prisma/client";
 import { useFetchPosts } from "hooks/useFetchPosts";
 import Observer from "@components/common/observer";
-import { dehydrate, QueryClient } from "react-query";
+// import { dehydrate, QueryClient } from "react-query";
 import RecentChats from "@components/chat/recentChats";
 
 interface ICount {

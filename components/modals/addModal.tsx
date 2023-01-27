@@ -210,6 +210,10 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
     setIsLoading(false);
     setIsOpen((props) => !props);
   };
+
+  const checkKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter") e.preventDefault();
+  };
   return (
     <>
       {isOpen ? (
@@ -217,6 +221,7 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
           <form
             className="space-y-2 h-[650px] pb-20 overflow-scroll scrollbar-none"
             onSubmit={handleSubmit(onValid)}
+            onKeyDown={(e) => checkKeyDown(e)}
           >
             {mediaPreview ? (
               <div className="mx-auto relative object-fit w-[400px] shadow-lg h-60">
@@ -295,12 +300,13 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
                   onChange={(e) => setHashtagInput(e.target.value)}
                   placeholder="해시태그를 추가하세요"
                 />
-                <div
+                <button
+                  type="button"
                   onClick={addHashtag}
                   className="flex items-center justify-center w-20 text-white bg-blue-400 rounded-md"
                 >
                   추가
-                </div>
+                </button>
               </div>
               <ul className="flex flex-wrap items-center space-x-4 list-none">
                 {hashtags.map((hashtag) => (
