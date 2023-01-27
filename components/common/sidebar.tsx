@@ -1,7 +1,13 @@
 import AddModal from "@components/modals/addModal";
-import { AddIcon, ChatIcon, HomeIcon, ProfileIcon } from "@components/svg";
+import {
+  AddIcon,
+  ChatIcon,
+  HomeIcon,
+  PowerIcon,
+  ProfileIcon,
+} from "@components/svg";
 import { cls } from "@libs/utils";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -10,6 +16,9 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data } = useSession();
   const router = useRouter();
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/login" });
+  };
 
   return (
     <>
@@ -24,7 +33,7 @@ export default function Sidebar() {
               "flex items-center space-x-2",
               router.pathname === "/"
                 ? "text-indigo-800"
-                : "hover:text-indigo-500 transition-colors"
+                : "hover:text-indigo-800 transition-colors"
             )}
           >
             <HomeIcon />
@@ -47,7 +56,7 @@ export default function Sidebar() {
               "flex items-center space-x-2",
               router.pathname === "/chat"
                 ? "text-indigo-800"
-                : "hover:text-indigo-500 transition-colors"
+                : "hover:text-indigo-800 transition-colors"
             )}
           >
             <ChatIcon />
@@ -60,14 +69,24 @@ export default function Sidebar() {
               "flex items-center space-x-2",
               router.asPath === `/profile/${data?.user?.id}`
                 ? "text-indigo-800"
-                : "hover:text-indigo-500 transition-colors"
+                : "hover:text-indigo-800 transition-colors"
             )}
           >
             <ProfileIcon />
             <div className="text-2xl">프로필 보기</div>
           </span>
         </Link>
-      </nav>{" "}
+        <div onClick={handleSignOut}>
+          <span
+            className={cls(
+              "hover:text-indigo-800 transition-colors flex items-center space-x-3"
+            )}
+          >
+            <PowerIcon />
+            <div className="text-2xl">로그아웃</div>
+          </span>
+        </div>
+      </nav>
       {isOpen ? <AddModal isOpen={isOpen} setIsOpen={setIsOpen} /> : null}
     </>
   );
