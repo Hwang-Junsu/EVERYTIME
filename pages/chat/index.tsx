@@ -23,7 +23,7 @@ export default function Chat() {
       const chatroomRef = query(
         collection(db, "chatrooms"),
         orderBy("lastTimeStamp", "desc"),
-        where("from", "==", user.id)
+        where("members", "array-contains", user.id)
       );
       onSnapshot(chatroomRef, (querySnapshot) => {
         setChatroomList(
@@ -55,15 +55,27 @@ export default function Chat() {
       </div>
       {chatroomList &&
         chatroomList.map((chat) => {
-          return (
-            <ChatItem
-              key={chat.id}
-              chatroomId={chat.id}
-              userId={chat.to}
-              lastChat={chat.lastMessage}
-              lastTimeStamp={chat.lastTimeStamp}
-            />
-          );
+          if (chat.to === user?.id) {
+            return (
+              <ChatItem
+                key={chat.id}
+                chatroomId={chat.id}
+                userId={chat.from}
+                lastChat={chat.lastMessage}
+                lastTimeStamp={chat.lastTimeStamp}
+              />
+            );
+          } else {
+            return (
+              <ChatItem
+                key={chat.id}
+                chatroomId={chat.id}
+                userId={chat.to}
+                lastChat={chat.lastMessage}
+                lastTimeStamp={chat.lastTimeStamp}
+              />
+            );
+          }
         })}
     </Layout>
   );

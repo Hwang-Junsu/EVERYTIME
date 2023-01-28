@@ -21,7 +21,10 @@ export default function ChatAddModal({
 
   const handleChatting = async (toUser) => {
     const chatroomRef = collection(db, "chatrooms");
-    const existChatroom = query(chatroomRef, where("to", "==", toUser.id));
+    const existChatroom = query(
+      chatroomRef,
+      where("members", "in", [toUser.id, user.id])
+    );
     const chatroomArr = [];
     const snapShot = await getDocs(existChatroom);
     snapShot.forEach((data) =>
@@ -36,6 +39,7 @@ export default function ChatAddModal({
     const { id } = await addDoc(chatroomRef, {
       from: user.id,
       to: toUser.id,
+      members: [user.id, toUser.id],
       lastMessage: "",
       lastTimeStamp: Date.now(),
     });

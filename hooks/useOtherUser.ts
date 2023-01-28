@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 
 export default function useOtherUser(id: string) {
   const { data, refetch, isLoading } = useQuery(
-    ["profile"],
+    ["profile", id],
     () => api.get(`/api/users/${id}`),
     { refetchOnWindowFocus: false, enabled: Boolean(id) }
   );

@@ -20,7 +20,7 @@ export default function RecentChats() {
       const chatroomRef = query(
         collection(db, "chatrooms"),
         orderBy("lastTimeStamp", "desc"),
-        where("from", "==", user.id)
+        where("members", "array-contains", user.id)
       );
       onSnapshot(chatroomRef, (querySnapshot) => {
         setChatroomList(
