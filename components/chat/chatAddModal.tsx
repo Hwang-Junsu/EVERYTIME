@@ -1,17 +1,10 @@
-import { api } from "@libs/api";
+import { db } from "@libs/firebase/firebase";
 import { cls } from "@libs/utils";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import useUser from "hooks/useUser";
 import Image from "next/legacy/image";
-import { Dispatch, SetStateAction } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import Swal from "sweetalert2";
-
-interface IAddChatModalProps {
-  isOpen: boolean;
-  readonly: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  sendUserList: any;
-  receiveUserList: any;
-}
+import { useRouter } from "next/router";
+import { IAddChatModalProps } from "types/types";
 
 export default function ChatAddModal({
   isOpen,
@@ -20,20 +13,41 @@ export default function ChatAddModal({
   sendUserList,
   receiveUserList,
 }: IAddChatModalProps) {
-  const queryClient = useQueryClient();
+  const { user } = useUser();
+  const router = useRouter();
   const onClick = () => {
     setIsOpen((props) => !props);
   };
-  const { mutate } = useMutation(
-    ({ userId }: { userId: string }) => api.post("/api/chat", { userId }),
-    {
-      onError: () => Swal.fire("이미 채팅을 이용중입니다."),
-      onSuccess: () => queryClient.invalidateQueries(["chat"]),
+
+  const handleChatting = async (toUser) => {
+    const chatroomRef = collection(db, "chatrooms");
+    const existChatroom = query(chatroomRef, where("to", "==", toUser.id));
+    const chatroomArr = [];
+    const snapShot = await getDocs(existChatroom);
+    snapShot.forEach((data) =>
+      chatroomArr.push({ data: data.data(), id: data.id })
+    );
+
+    if (chatroomArr.length > 0) {
+      router.push(`/chat/${chatroomArr[0].id}?name=${toUser.name}`);
+      return;
     }
-  );
-  const onAddChat = (userId: string) => {
-    mutate({ userId });
-    setIsOpen((props) => !props);
+
+    const { id } = await addDoc(chatroomRef, {
+      from: user.id,
+      to: toUser.id,
+      lastMessage: "",
+      lastTimeStamp: Date.now(),
+    });
+
+    const messagesRef = collection(db, `messages-${id}`);
+    await addDoc(messagesRef, {
+      message: "",
+      createdAt: "",
+      name: "",
+    });
+
+    router.replace(`/chat/${id}?name=${toUser.name}`);
   };
 
   return (
@@ -74,7 +88,7 @@ export default function ChatAddModal({
                     </div>
                     <div className="font-bold">{user.receiveUser.name}</div>
                     {!readonly ? (
-                      <div onClick={() => onAddChat(user.receiveUser.id)}>
+                      <div onClick={() => handleChatting(user.receiveUser)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -112,7 +126,7 @@ export default function ChatAddModal({
                     </div>
                     <div className="font-bold">{user.sendUser.name}</div>
                     {!readonly ? (
-                      <div onClick={() => onAddChat(user.sendUser.id)}>
+                      <div onClick={() => handleChatting(user.sendUser)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"

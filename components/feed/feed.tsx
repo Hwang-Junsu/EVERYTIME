@@ -1,4 +1,3 @@
-import { Post, User } from "@prisma/client";
 import Image from "next/legacy/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import BasicProfile from "images/basic_profile.jpg";
@@ -11,23 +10,7 @@ import { useRouter } from "next/router";
 import EditMenu from "./edit";
 import { useSession } from "next-auth/react";
 import { BookmarkIcon, BubbleIcon, HeartIcon } from "@components/svg";
-
-interface ICount {
-  comments: number;
-  likes: number;
-}
-
-interface IPostProps extends Post {
-  isLike: boolean;
-  isBookmark: boolean;
-  user: User;
-  _count: ICount;
-}
-
-interface IFeedProps {
-  post: IPostProps;
-  isModal?: boolean;
-}
+import { IFeedProps } from "types/types";
 
 export default function Feed({ post, isModal = false }: IFeedProps) {
   const {

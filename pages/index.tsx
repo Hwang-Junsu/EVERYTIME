@@ -3,39 +3,11 @@ import Layout from "@components/common/layout";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
-import { Post, User } from "@prisma/client";
 import { useFetchPosts } from "hooks/useFetchPosts";
 import Observer from "@components/common/observer";
-// import { dehydrate, QueryClient } from "react-query";
 import RecentChats from "@components/chat/recentChats";
+import { PostWithLikeAndComment } from "types/types";
 
-interface ICount {
-  comments: number;
-  likes: number;
-}
-
-interface PostWithLikeAndComment extends Post {
-  _count: ICount;
-  user: User;
-  isLike: boolean;
-  isBookmark: boolean;
-}
-
-// export async function getServerSideProps() {
-//   const queryFn = async () => {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/posts?id=`);
-//     const data = await res.json();
-//     return data;
-//   };
-//   const queryClient = new QueryClient();
-//   await queryClient.prefetchQuery(["posts"], queryFn);
-
-//   return {
-//     props: {
-//       dehydratedState: dehydrate(queryClient),
-//     },
-//   };
-// }
 function Home() {
   const { data, hasNextPage, fetchNextPage } = useFetchPosts();
   const { status } = useSession();

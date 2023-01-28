@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ISvgProps } from "types/types";
 
 const activatedSvg = {
   start: { fill: "rgba(3,138,255,0)", stroke: "black" },
@@ -16,7 +17,7 @@ const deactivatedSvg = {
   end: { fill: "rgba(3,138,255,0)", stroke: "black" },
 };
 
-export default function BookmarkIcon({ activated }: { activated: boolean }) {
+export default function BookmarkIcon({ activated }: ISvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

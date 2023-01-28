@@ -1,18 +1,10 @@
 import { cls } from "@libs/utils";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import Input from "../common/input";
 import TextArea from "../common/textarea";
 import { useForm } from "react-hook-form";
 import Button from "../common/button";
-import { IAddPostRequest } from "types/types";
+import { IAddImageData, IAddPostRequest, IModalProps } from "types/types";
 import { api } from "@libs/api";
 import { useMutation, useQueryClient } from "react-query";
 import Swal from "sweetalert2";
@@ -21,21 +13,6 @@ import Image from "next/legacy/image";
 import useUser from "hooks/useUser";
 import CommonModal from "./commonModal";
 import Loading from "@components/common/loading";
-
-interface IModalProps {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-interface IAddImageData {
-  title: string;
-  content: string;
-  media: string;
-  author: string;
-  hashtags: string;
-  mediaType?: string;
-  thumbnail?: string;
-}
 
 export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
   const [hashtags, setHashtags] = useState<string[]>([]);
@@ -144,7 +121,6 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
   useEffect(() => {
     if (media && media.length > 0) {
       const file = media[0];
-      console.log(file);
       if (file.type.includes("video")) setIsVideo(true);
       else setIsVideo(false);
       setMediaPreview(URL.createObjectURL(file));

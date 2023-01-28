@@ -76,10 +76,10 @@ export default function Login() {
                 className="w-[210px] h-[50px] bg-[url('../images/btn_google_signin_light_focus_web.png')] bg-cover bg-no-repeat bg-center shadow-lg hover:scale-105"
               />
 
-              <button
+              {/* <button
                 className="w-[210px] h-[50px] bg-[url('../images/kakao_login_medium_narrow.png')] bg-cover bg-no-repeat bg-center shadow-lg hover:scale-105"
                 onClick={onKakaoLogin}
-              />
+              /> */}
             </div>
           </div>
         </div>

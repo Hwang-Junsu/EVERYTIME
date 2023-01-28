@@ -1,10 +1,9 @@
-import { cls } from "@libs/utils";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../common/input";
 import TextArea from "../common/textarea";
 import { useForm } from "react-hook-form";
 import Button from "../common/button";
-import { IEditProfile } from "types/types";
+import { IEditProfile, IModalProps, IUpdateProfileRequest } from "types/types";
 import Image from "next/legacy/image";
 import { api } from "@libs/api";
 import { useMutation } from "react-query";
@@ -12,17 +11,6 @@ import { useSession } from "next-auth/react";
 import { useQueryClient } from "react-query";
 import CommonModal from "./commonModal";
 import Loading from "@components/common/loading";
-
-interface IModalProps {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-interface IUpdateProfileRequest {
-  image?: string;
-  introduce: string;
-  name: string;
-}
 
 export default function EditModal({ isOpen, setIsOpen }: IModalProps) {
   const { data: token } = useSession();
