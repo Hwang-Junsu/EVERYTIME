@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import React from "react";
 import ChatInput from "@components/chat/chatInput";
 import ChatLog from "@components/chat/chatLog";
 import Layout from "@components/common/layout";
 import useUser from "hooks/useUser";
 import { useRouter } from "next/router";
-
-//const socket = socketIOClient("localhost:5000");
 
 export default function Chat() {
   const router = useRouter();

@@ -28,8 +28,6 @@
         "react-dom": "18.2.0",
         "react-hook-form": "^7.41.0",
         "react-query": "^3.39.2",
-        "socket.io": "^4.5.4",
-        "socket.io-client": "^4.5.4",
         "sweetalert2": "^11.4.8",
         "swr": "^2.0.0",
         "tailwind-scrollbar": "^2.0.1",

@@ -1,4 +1,3 @@
-import { Comment as IComment, User } from "@prisma/client";
 import { ICommentWithUser } from "types/types";
 import Comment from "./comment";
 
