@@ -41,7 +41,11 @@ export default function RecentChats() {
           {chatroomList && (
             <div className="flex p-3 space-x-5 bg-indigo-200 rounded-md justify-items-start">
               {chatroomList.map((chat) => (
-                <RecentChatItem chatroomId={chat.id} userId={chat.to} />
+                <RecentChatItem
+                  key={chat.id}
+                  chatroomId={chat.id}
+                  userId={chat.to}
+                />
               ))}
             </div>
           )}
