@@ -36,7 +36,7 @@ export default function RecentChats() {
   return (
     <>
       {chatroomList && (
-        <section className="px-5 pt-5 space-y-2">
+        <section className="px-5 pt-5 space-y-2 overflow-x-auto">
           <p className="text-xl text-bold">Recent Chats</p>
           {chatroomList && (
             <div className="flex p-3 space-x-5 bg-indigo-200 rounded-md justify-items-start">

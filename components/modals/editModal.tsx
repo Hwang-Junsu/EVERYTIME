@@ -69,7 +69,7 @@ export default function EditModal({ isOpen, setIsOpen }: IModalProps) {
       {isOpen ? (
         <CommonModal onClick={onClick}>
           <form
-            className="space-y-2 h-[650px] pb-20 overflow-scroll scrollbar-none"
+            className="pb-20 space-y-2 overflow-scroll scrollbar-none"
             onSubmit={handleSubmit(onValid)}
           >
             {mediaPreview ? (

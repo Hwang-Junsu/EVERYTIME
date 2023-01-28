@@ -5,6 +5,6 @@
 # Skill Stack
 
 - Front-end : Typescript, NextJS, TailwindCSS
-- Back-end : express(Websocket Server), NextJS
+- Serverless: Firebase(Chatting Server), NextJS
 - Database: PlanetScale
 - TypeORM : Prisma

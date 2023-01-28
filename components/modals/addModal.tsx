@@ -130,6 +130,10 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
     setIsOpen((props) => !props);
   };
   const onValid = async (data: IAddPostRequest) => {
+    if (mediaPreview === "") {
+      Swal.fire("이미지 혹은 비디오는 필수입니다.");
+      return;
+    }
     setIsLoading(true);
     const formData = new FormData();
     if (data.media[0].type.includes("image")) {
@@ -244,7 +248,7 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
                     />
                   </svg>
                 </div>
-                <div className="text-2xl font-bold tracking-tighter">
+                <div className="text-xl font-bold tracking-tighter phone:text-2xl ">
                   {isDragging ? "Dragging..." : "UPLOAD IMAGE / VIDEO"}
                 </div>
               </label>
