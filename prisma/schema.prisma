@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  previewFeatures = ["referentialIntegrity", "orderByRelation"]
 }
 
 datasource db {
@@ -47,11 +47,11 @@ model Session {
 }
 
 model User {
-  id            String           @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?          @unique
+  email         String?    @unique
   emailVerified DateTime?
-  image         String?          @default("https://imagedelivery.net/_svxocQ2IUnWarpkNEZZ5A/c257d6a5-e5ef-4031-068a-7c3bd9fd8100/avatar")
+  image         String?    @default("https://imagedelivery.net/_svxocQ2IUnWarpkNEZZ5A/c257d6a5-e5ef-4031-068a-7c3bd9fd8100/avatar")
   password      String?
   introduce     String?
   accounts      Account[]
@@ -59,11 +59,9 @@ model User {
   post          Post[]
   like          Like[]
   comment       Comment[]
-  sendFollow    Follow[]         @relation(name: "sendFollow")
-  receiveFollow Follow[]         @relation(name: "receiveFollow")
+  sendFollow    Follow[]   @relation(name: "sendFollow")
+  receiveFollow Follow[]   @relation(name: "receiveFollow")
   bookmark      Bookmark[]
-  messages      Message[]
-  chatRooms     ChattingOnUser[]
 }
 
 model VerificationToken {
@@ -141,37 +139,4 @@ model Bookmark {
   updatedAt DateTime @updatedAt
 
   @@index([userId, postId])
-}
-
-model ChatRoom {
-  id      Int              @id @default(autoincrement())
-  members ChattingOnUser[]
-  message Message[]
-}
-
-model Message {
-  id         Int      @id @default(autoincrement())
-  message    String
-  timeStamp  String
-  image      String
-  userName   String
-  chatroom   ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
-  chatRoomId Int
-  author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
-  updatedAt  DateTime @updatedAt
-
-  @@index([userId, chatRoomId])
-}
-
-model ChattingOnUser {
-  chatroom   ChatRoom @relation(fields: [chatroomId], references: [id], onDelete: Cascade)
-  chatroomId Int
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
-  assignedAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@id([userId, chatroomId])
-  @@index([userId, chatroomId])
 }

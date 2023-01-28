@@ -1,12 +1,6 @@
 import { cls } from "@libs/utils";
 import { UseFormRegisterReturn } from "react-hook-form";
-
-interface IInputProps {
-  register: UseFormRegisterReturn;
-  type: string;
-  placeholder?: string;
-  textAlign?: "right" | "center" | "left";
-}
+import { IInputProps } from "types/types";
 
 export default function Input({
   register,

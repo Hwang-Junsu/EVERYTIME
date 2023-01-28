@@ -1,13 +1,7 @@
 import Image from "next/legacy/image";
 import { useState } from "react";
+import { IPostCardProps } from "types/types";
 import PostModal from "../modals/postModal";
-
-interface IPostCardProps {
-  postId: number;
-  media: string;
-  mediaType: string;
-  thumbnail?: string;
-}
 
 export default function PostCard({
   postId,

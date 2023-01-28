@@ -11,23 +11,6 @@ import { useRouter } from "next/router";
 export default function Chat() {
   const router = useRouter();
   const { user } = useUser();
-  const [currentSocket, setCurrentSocket] = useState<Socket>();
-  // const currentSocket: Socket = io("localhost:5000");
-  useEffect(() => {
-    setCurrentSocket(io("localhost:5000"));
-  }, []);
-
-  useEffect(() => {
-    if (currentSocket) {
-      const myInfo = {
-        roomName: router.query.id,
-        userName: user?.name,
-      };
-      currentSocket.on("connect", () => {
-        currentSocket.emit("join", myInfo);
-      });
-    }
-  }, [currentSocket]);
 
   return (
     <Layout
@@ -40,23 +23,10 @@ export default function Chat() {
         <div className="items-center justify-center hidden w-full h-16 text-2xl text-white bg-gradient-to-r from-indigo-400 to-indigo-600 lg:flex">
           {router.query.name as string}
         </div>
-        {currentSocket ? (
-          <div>
-            <ChatLog
-              socket={currentSocket}
-              user={user}
-              chatroomId={router.query.id}
-            ></ChatLog>
-            <ChatInput
-              user={user}
-              chatroomId={router.query.id}
-              userName={user?.name || "NoName"}
-              socket={currentSocket}
-            />
-          </div>
-        ) : (
-          <div>Loading</div>
-        )}
+        <div>
+          <ChatLog user={user} chatroomId={router.query.id}></ChatLog>
+          <ChatInput user={user} chatroomId={router.query.id} />
+        </div>
       </div>
     </Layout>
   );

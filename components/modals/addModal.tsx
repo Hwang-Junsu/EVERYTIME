@@ -1,18 +1,10 @@
 import { cls } from "@libs/utils";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import Input from "../common/input";
 import TextArea from "../common/textarea";
 import { useForm } from "react-hook-form";
 import Button from "../common/button";
-import { IAddPostRequest } from "types/types";
+import { IAddImageData, IAddPostRequest, IModalProps } from "types/types";
 import { api } from "@libs/api";
 import { useMutation, useQueryClient } from "react-query";
 import Swal from "sweetalert2";
@@ -21,21 +13,6 @@ import Image from "next/legacy/image";
 import useUser from "hooks/useUser";
 import CommonModal from "./commonModal";
 import Loading from "@components/common/loading";
-
-interface IModalProps {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-}
-
-interface IAddImageData {
-  title: string;
-  content: string;
-  media: string;
-  author: string;
-  hashtags: string;
-  mediaType?: string;
-  thumbnail?: string;
-}
 
 export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
   const [hashtags, setHashtags] = useState<string[]>([]);
@@ -144,7 +121,6 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
   useEffect(() => {
     if (media && media.length > 0) {
       const file = media[0];
-      console.log(file);
       if (file.type.includes("video")) setIsVideo(true);
       else setIsVideo(false);
       setMediaPreview(URL.createObjectURL(file));
@@ -210,6 +186,10 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
     setIsLoading(false);
     setIsOpen((props) => !props);
   };
+
+  const checkKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter") e.preventDefault();
+  };
   return (
     <>
       {isOpen ? (
@@ -217,6 +197,7 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
           <form
             className="space-y-2 h-[650px] pb-20 overflow-scroll scrollbar-none"
             onSubmit={handleSubmit(onValid)}
+            onKeyDown={(e) => checkKeyDown(e)}
           >
             {mediaPreview ? (
               <div className="mx-auto relative object-fit w-[400px] shadow-lg h-60">
@@ -295,12 +276,13 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
                   onChange={(e) => setHashtagInput(e.target.value)}
                   placeholder="해시태그를 추가하세요"
                 />
-                <div
+                <button
+                  type="button"
                   onClick={addHashtag}
                   className="flex items-center justify-center w-20 text-white bg-blue-400 rounded-md"
                 >
                   추가
-                </div>
+                </button>
               </div>
               <ul className="flex flex-wrap items-center space-x-4 list-none">
                 {hashtags.map((hashtag) => (

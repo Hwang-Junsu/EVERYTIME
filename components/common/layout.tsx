@@ -7,14 +7,7 @@ import AddModal from "../modals/addModal";
 import { CogIcon, Chevron } from "@components/svg";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
-
-interface LayoutProps {
-  canGoBack?: boolean;
-  hasTabBar?: boolean;
-  children: React.ReactNode;
-  seoTitle?: string;
-  title?: string;
-}
+import { ILayoutProps } from "types/types";
 
 export default function Layout({
   canGoBack,
@@ -22,7 +15,7 @@ export default function Layout({
   children,
   seoTitle,
   title = "EVERYTIME",
-}: LayoutProps) {
+}: ILayoutProps) {
   const router = useRouter();
   const onClick = () => {
     router.back();
