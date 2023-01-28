@@ -1,5 +1,4 @@
 import Button from "@components/common/button";
-import { api } from "@libs/api";
 import { db } from "@libs/firebase/firebase";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
