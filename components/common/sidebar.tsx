@@ -43,7 +43,7 @@ export default function Sidebar() {
         <div role="presentation" onClick={() => setIsOpen((props) => !props)}>
           <span
             className={cls(
-              "hover:text-indigo-500 transition-colors flex items-center space-x-2"
+              "hover:text-indigo-500 cursor-pointer transition-colors flex items-center space-x-2"
             )}
           >
             <AddIcon />
@@ -79,7 +79,7 @@ export default function Sidebar() {
         <div onClick={handleSignOut}>
           <span
             className={cls(
-              "hover:text-indigo-800 transition-colors flex items-center space-x-3"
+              "hover:text-indigo-800 cursor-pointer transition-colors flex items-center space-x-3"
             )}
           >
             <PowerIcon />
