@@ -14,7 +14,6 @@ import RecentChatItem from "./recentChatItem";
 export default function RecentChats() {
     const [chatroomList, setChatroomList] = useState<DocumentData[]>([]);
     const {user} = useUser();
-    const scrollbarRef = useRef(null);
 
     useEffect(() => {
         if (user) {
