@@ -1,3 +1,4 @@
+import PlusIcon from "@components/svg/plusIcon";
 import {db} from "@libs/firebase/firebase";
 import {cls} from "@libs/utils";
 import {addDoc, collection, getDocs, query, where} from "firebase/firestore";
@@ -21,17 +22,25 @@ export default function ChatAddModal({
 
     const handleChatting = async (toUser) => {
         const chatroomRef = collection(db, "chatrooms");
-        const existChatroom = query(
+        const existChatroom1 = query(
+            chatroomRef,
+            where("members", "in", [[user.id, toUser.id]])
+        );
+        const existChatroom2 = query(
             chatroomRef,
             where("members", "in", [[toUser.id, user.id]])
         );
         const chatroomArr = [];
-        const snapShot = await getDocs(existChatroom);
-        snapShot.forEach((data) =>
+        const snapShot1 = await getDocs(existChatroom1);
+        snapShot1.forEach((data) =>
+            chatroomArr.push({data: data.data(), id: data.id})
+        );
+        const snapShot2 = await getDocs(existChatroom2);
+        snapShot2.forEach((data) =>
             chatroomArr.push({data: data.data(), id: data.id})
         );
 
-        console.log(toUser.id, user.id, chatroomArr);
+        console.log(chatroomArr);
 
         if (chatroomArr.length > 0) {
             router.push(`/chat/${chatroomArr[0].id}?name=${toUser.name}`);
@@ -100,26 +109,14 @@ export default function ChatAddModal({
                                         </div>
                                         {!readonly ? (
                                             <div
+                                                className="cursor-pointer"
                                                 onClick={() =>
                                                     handleChatting(
                                                         user.receiveUser
                                                     )
                                                 }
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    strokeWidth="1.5"
-                                                    stroke="currentColor"
-                                                    className="w-6 h-6"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                    />
-                                                </svg>
+                                                <PlusIcon />
                                             </div>
                                         ) : null}
                                     </div>
@@ -149,26 +146,14 @@ export default function ChatAddModal({
                                         </div>
                                         {!readonly ? (
                                             <div
+                                                className="cursor-pointer"
                                                 onClick={() =>
                                                     handleChatting(
                                                         user.sendUser
                                                     )
                                                 }
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    strokeWidth="1.5"
-                                                    stroke="currentColor"
-                                                    className="w-6 h-6"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                    />
-                                                </svg>
+                                                <PlusIcon />
                                             </div>
                                         ) : null}
                                     </div>
