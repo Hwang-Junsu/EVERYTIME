@@ -2,15 +2,15 @@ import Button from "@components/common/button";
 import Input from "@components/common/input";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { ILoginRequest } from "types/types";
-import { signIn } from "next-auth/react";
+import {useRouter} from "next/router";
+import {useForm} from "react-hook-form";
+import {ILoginRequest} from "types/types";
+import {signIn} from "next-auth/react";
 import SignLayout from "@components/common/signLayout";
 import Swal from "sweetalert2";
 
 export default function Login() {
-  const { register, handleSubmit } = useForm<ILoginRequest>();
+  const {register, handleSubmit} = useForm<ILoginRequest>();
   const router = useRouter();
   const onValid = async (data: ILoginRequest) => {
     const response = await signIn("credentials", {
@@ -27,13 +27,6 @@ export default function Login() {
       redirect: false,
       callbackUrl: process.env.NEXT_PUBLIC_API_URL,
     });
-  };
-  const onKakaoLogin = async () => {
-    await signIn("kakao", {
-      redirect: false,
-      callbackUrl: process.env.NEXT_PUBLIC_API_URL,
-    });
-    router.push("/");
   };
 
   return (

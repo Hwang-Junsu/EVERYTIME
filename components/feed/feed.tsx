@@ -1,18 +1,18 @@
 import Image from "next/legacy/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import {Dispatch, SetStateAction, useState} from "react";
 import BasicProfile from "images/basic_profile.jpg";
-import { useMutation, useQueryClient } from "react-query";
-import { api } from "@libs/api";
-import { cls } from "@libs/utils";
+import {useMutation, useQueryClient} from "react-query";
+import {api} from "@libs/api";
+import {cls} from "@libs/utils";
 import PostModal from "../modals/postModal";
 import Hashtags from "./hashtags";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import EditMenu from "./edit";
-import { useSession } from "next-auth/react";
-import { BookmarkIcon, BubbleIcon, HeartIcon } from "@components/svg";
-import { IFeedProps } from "types/types";
+import {useSession} from "next-auth/react";
+import {AddIcon, BookmarkIcon, BubbleIcon, HeartIcon} from "@components/svg";
+import {IFeedProps} from "types/types";
 
-export default function Feed({ post, isModal = false }: IFeedProps) {
+export default function Feed({post, isModal = false}: IFeedProps) {
   const {
     title,
     media,
@@ -35,9 +35,9 @@ export default function Feed({ post, isModal = false }: IFeedProps) {
   const [likeCount, setLikeCount] = useState<number>(_count.likes);
   const [isBookmarkState, setIsBookmarkState] = useState<boolean>(isBookmark);
 
-  const { data: token } = useSession();
+  const {data: token} = useSession();
   const queryClient = useQueryClient();
-  const { mutate: likeMutate } = useMutation(
+  const {mutate: likeMutate} = useMutation(
     () => api.post(`/api/posts/${id}/like`),
     {
       onMutate: () => {
@@ -47,12 +47,12 @@ export default function Feed({ post, isModal = false }: IFeedProps) {
       onError: () => {},
     }
   );
-  const { mutate: commentMutate } = useMutation(
-    ({ content }: { content: string }) =>
-      api.post(`/api/comments/${id}`, { content }),
-    { onSuccess: () => queryClient.invalidateQueries(["posts"]) }
+  const {mutate: commentMutate} = useMutation(
+    ({content}: {content: string}) =>
+      api.post(`/api/comments/${id}`, {content}),
+    {onSuccess: () => queryClient.invalidateQueries(["posts"])}
   );
-  const { mutate: bookmarkMutate } = useMutation(
+  const {mutate: bookmarkMutate} = useMutation(
     () => api.post(`/api/posts/${id}/bookmark`),
     {
       onMutate: () => {
@@ -60,9 +60,9 @@ export default function Feed({ post, isModal = false }: IFeedProps) {
       },
     }
   );
-  const { mutate: deletePostMutation } = useMutation(
+  const {mutate: deletePostMutation} = useMutation(
     () => api.delete(`/api/posts/${id}`),
-    { onSuccess: () => queryClient.invalidateQueries(["posts"]) }
+    {onSuccess: () => queryClient.invalidateQueries(["posts"])}
   );
   const onLikeClick = () => {
     likeMutate(null, {
@@ -86,7 +86,7 @@ export default function Feed({ post, isModal = false }: IFeedProps) {
     data: string,
     setFn: Dispatch<SetStateAction<string>>
   ) => {
-    commentMutate({ content: data });
+    commentMutate({content: data});
     setFn("");
   };
 
@@ -212,20 +212,7 @@ export default function Feed({ post, isModal = false }: IFeedProps) {
                 className="text-blue-400"
                 onClick={() => addComment(input, setInput)}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-7 h-7"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                <AddIcon />
               </button>
             </div>
           </form>
