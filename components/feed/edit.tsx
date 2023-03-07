@@ -1,6 +1,6 @@
-import { IEditMenu } from "types/types";
+import {IEditMenu} from "types/types";
 
-export default function EditMenu({ onDelete, onBookmark, isMine }: IEditMenu) {
+export default function EditMenu({onDelete, onBookmark, isMine}: IEditMenu) {
   return (
     <div className="right-2 absolute z-[999] w-[100px] h-[50px] bg-white shadow-2xl rounded-xl border-2 overflow-hidden">
       <div className="flex flex-col h-full overflow-hidden">

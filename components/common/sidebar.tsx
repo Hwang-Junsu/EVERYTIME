@@ -1,3 +1,8 @@
+import {useState} from "react";
+import {signOut, useSession} from "next-auth/react";
+import Link from "next/link";
+import {useRouter} from "next/router";
+import {cls} from "@libs/utils";
 import AddModal from "@components/modals/addModal";
 import {
   AddIcon,
@@ -6,18 +11,13 @@ import {
   PowerIcon,
   ProfileIcon,
 } from "@components/svg";
-import { cls } from "@libs/utils";
-import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data } = useSession();
+  const {data} = useSession();
   const router = useRouter();
   const handleSignOut = () => {
-    signOut({ callbackUrl: "/login" });
+    signOut({callbackUrl: "/login"});
   };
 
   return (

@@ -1,20 +1,20 @@
-import { api } from "@libs/api";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useQuery } from "react-query";
+import {useEffect} from "react";
+import {useQuery} from "react-query";
+import {useRouter} from "next/router";
+import {api} from "@libs/api";
 import PostCard from "./postCard";
 
-export default function PostList({ userId, isMyPosts }) {
+export default function PostList({userId, isMyPosts}) {
   const router = useRouter();
-  const { data: userData, refetch } = useQuery(
+  const {data: userData, refetch} = useQuery(
     ["posts"],
     () => api.get(`/api/posts/user/${userId}`),
-    { refetchOnWindowFocus: false, enabled: isMyPosts }
+    {refetchOnWindowFocus: false, enabled: isMyPosts}
   );
-  const { data: bookmarkData } = useQuery(
+  const {data: bookmarkData} = useQuery(
     ["posts"],
     () => api.get(`/api/posts/bookmark`),
-    { refetchOnWindowFocus: false, enabled: !isMyPosts }
+    {refetchOnWindowFocus: false, enabled: !isMyPosts}
   );
   useEffect(() => {
     refetch();

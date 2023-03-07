@@ -1,4 +1,4 @@
-import { ITextAreaProps } from "types/types";
+import {ITextAreaProps} from "types/types";
 
 export default function TextArea({
   label,

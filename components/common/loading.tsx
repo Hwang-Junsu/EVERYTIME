@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 const activatedSvg = {
-  start: { stroke: "transparents", fill: "none", pathLength: 0 },
+  start: {stroke: "transparents", fill: "none", pathLength: 0},
   end: {
     pathLength: 1,
     stroke: "rgba(159, 124, 255, 1)",
@@ -22,7 +22,7 @@ export default function Loading() {
             variants={activatedSvg}
             initial={"start"}
             animate={"end"}
-            transition={{ repeat: Infinity, duration: 2 }}
+            transition={{repeat: Infinity, duration: 2}}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"

@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import {NextApiRequest, NextApiResponse} from "next";
 
 export interface ResponseType {
   ok: boolean;
@@ -12,7 +12,7 @@ interface ConfigType {
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
   isPrivate?: boolean;
 }
-export default function withHandler({ methods, handler }: ConfigType) {
+export default function withHandler({methods, handler}: ConfigType) {
   return async function (
     req: NextApiRequest,
     res: NextApiResponse
@@ -23,7 +23,7 @@ export default function withHandler({ methods, handler }: ConfigType) {
     try {
       await handler(req, res);
     } catch (error) {
-      return res.status(500).json({ error });
+      return res.status(500).json({error});
     }
   };
 }

@@ -2,7 +2,7 @@ import * as bcrypt from "bcrypt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
 import client from "@libs/server/client";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import {PrismaAdapter} from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 
@@ -16,14 +16,14 @@ export default NextAuth({
           type: "email",
           placeholder: "test@test.com",
         },
-        password: { label: "Password", type: "password" },
+        password: {label: "Password", type: "password"},
       },
 
       // typescript bug
       async authorize(credentials) {
         const user = await client.user.findUnique({
-          where: { email: credentials?.email },
-          select: { name: true, email: true, password: true },
+          where: {email: credentials?.email},
+          select: {name: true, email: true, password: true},
         });
         const matchedPassword = await bcrypt.compare(
           credentials?.password as string,
@@ -49,18 +49,18 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    session: async ({ session, token }) => {
+    session: async ({session, token}) => {
       const user = await client.user.findFirst({
-        where: { email: token.email },
+        where: {email: token.email},
       });
       if (session?.user) {
         session.user.id = String(user.id) || String(token.sub);
       }
       return session;
     },
-    jwt: async ({ user, token }) => {
+    jwt: async ({user, token}) => {
       const currentUser = await client.user.findFirst({
-        where: { email: token.email },
+        where: {email: token.email},
       });
       if (user) {
         token.uid = currentUser.id || user.id;
@@ -70,6 +70,6 @@ export default NextAuth({
   },
   secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(client),
-  pages: { signIn: "/login" },
-  session: { strategy: "jwt" },
+  pages: {signIn: "/login"},
+  session: {strategy: "jwt"},
 });

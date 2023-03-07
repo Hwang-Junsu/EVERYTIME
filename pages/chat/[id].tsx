@@ -1,13 +1,13 @@
 import React from "react";
+import useUser from "hooks/useUser";
+import {useRouter} from "next/router";
 import ChatInput from "@components/chat/chatInput";
 import ChatLog from "@components/chat/chatLog";
 import Layout from "@components/common/layout";
-import useUser from "hooks/useUser";
-import { useRouter } from "next/router";
 
 export default function Chat() {
   const router = useRouter();
-  const { user } = useUser();
+  const {user} = useUser();
 
   return (
     <Layout

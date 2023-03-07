@@ -1,29 +1,28 @@
-import { cls } from "@libs/utils";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import {ChangeEvent, useCallback, useEffect, useRef, useState} from "react";
+import {useMutation, useQueryClient} from "react-query";
+import {useForm} from "react-hook-form";
+import Image from "next/legacy/image";
+import {v4 as uuid} from "uuid";
+import Swal from "sweetalert2";
+import {cls} from "@libs/utils";
+import {api} from "@libs/api";
 import Input from "../common/input";
 import TextArea from "../common/textarea";
-import { useForm } from "react-hook-form";
 import Button from "../common/button";
-import { IAddImageData, IAddPostRequest, IModalProps } from "types/types";
-import { api } from "@libs/api";
-import { useMutation, useQueryClient } from "react-query";
-import Swal from "sweetalert2";
-import { v4 as uuid } from "uuid";
-import Image from "next/legacy/image";
 import useUser from "hooks/useUser";
 import CommonModal from "./commonModal";
+import {IAddImageData, IAddPostRequest, IModalProps} from "types/types";
 import Loading from "@components/common/loading";
 
-export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
+export default function AddModal({isOpen, setIsOpen}: IModalProps) {
   const [hashtags, setHashtags] = useState<string[]>([]);
   const [hashtagInput, setHashtagInput] = useState<string>("");
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { register, handleSubmit, watch, setValue } =
-    useForm<IAddPostRequest>();
+  const {register, handleSubmit, watch, setValue} = useForm<IAddPostRequest>();
   const queryClient = useQueryClient();
-  const { user } = useUser();
-  const { mutate } = useMutation(
+  const {user} = useUser();
+  const {mutate} = useMutation(
     (data: IAddImageData) => api.post("/api/posts", data),
     {
       onSuccess: () => {
@@ -139,11 +138,11 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
     if (data.media[0].type.includes("image")) {
       formData.append("file", data.media[0]);
       const {
-        data: { uploadURL },
+        data: {uploadURL},
       } = await api.get("/api/image");
       const {
         data: {
-          result: { id },
+          result: {id},
         },
       } = await api.post(uploadURL, formData);
       const addImageData = {
@@ -156,14 +155,14 @@ export default function AddModal({ isOpen, setIsOpen }: IModalProps) {
     } else if (data.media[0].type.includes("video")) {
       formData.append("file", data.media[0]);
       const {
-        data: { uploadURL, uid },
+        data: {uploadURL, uid},
       } = await api.get("/api/videos");
 
       await api.post(uploadURL, formData);
 
       const {
         data: {
-          result: { preview, thumbnail },
+          result: {preview, thumbnail},
         },
       } = await api.get(
         `https://api.cloudflare.com/client/v4/accounts/${process.env.NEXT_PUBLIC_CLOUDFLARE_CLIENT_ID}/stream/${uid}`,

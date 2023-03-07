@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import { cls } from "@libs/utils";
-import { useRouter } from "next/router";
+import React, {useState} from "react";
+import {useRouter} from "next/router";
 import Head from "next/head";
+import Link from "next/link";
+import {cls} from "@libs/utils";
 import AddModal from "../modals/addModal";
-import { CogIcon, Chevron } from "@components/svg";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
-import { ILayoutProps } from "types/types";
+import {ILayoutProps} from "types/types";
+import {CogIcon, Chevron} from "@components/svg";
 
 export default function Layout({
   canGoBack,

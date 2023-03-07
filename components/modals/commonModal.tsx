@@ -1,7 +1,7 @@
-import { cls } from "@libs/utils";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
+import {cls} from "@libs/utils";
 
-export default function CommonModal({ children, onClick }) {
+export default function CommonModal({children, onClick}) {
   return (
     <div
       onClick={onClick}
@@ -9,8 +9,8 @@ export default function CommonModal({ children, onClick }) {
       className="fixed z-[999] -top-3 left-0 flex items-center justify-center w-full h-screen bg-black bg-opacity-50"
     >
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
         onClick={(e) => e.stopPropagation()}
         role="presentation"
         className={cls(

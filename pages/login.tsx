@@ -1,13 +1,13 @@
-import Button from "@components/common/button";
-import Input from "@components/common/input";
-import Head from "next/head";
-import Link from "next/link";
 import {useRouter} from "next/router";
 import {useForm} from "react-hook-form";
-import {ILoginRequest} from "types/types";
+import Head from "next/head";
+import Link from "next/link";
 import {signIn} from "next-auth/react";
-import SignLayout from "@components/common/signLayout";
 import Swal from "sweetalert2";
+import Button from "@components/common/button";
+import Input from "@components/common/input";
+import {ILoginRequest} from "types/types";
+import SignLayout from "@components/common/signLayout";
 
 export default function Login() {
   const {register, handleSubmit} = useForm<ILoginRequest>();

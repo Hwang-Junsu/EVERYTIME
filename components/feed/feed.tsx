@@ -1,16 +1,16 @@
-import Image from "next/legacy/image";
 import {Dispatch, SetStateAction, useState} from "react";
-import BasicProfile from "images/basic_profile.jpg";
 import {useMutation, useQueryClient} from "react-query";
+import {useSession} from "next-auth/react";
+import {useRouter} from "next/router";
+import Image from "next/legacy/image";
 import {api} from "@libs/api";
 import {cls} from "@libs/utils";
 import PostModal from "../modals/postModal";
 import Hashtags from "./hashtags";
-import {useRouter} from "next/router";
 import EditMenu from "./edit";
-import {useSession} from "next-auth/react";
-import {AddIcon, BookmarkIcon, BubbleIcon, HeartIcon} from "@components/svg";
 import {IFeedProps} from "types/types";
+import BasicProfile from "images/basic_profile.jpg";
+import {AddIcon, BookmarkIcon, BubbleIcon, HeartIcon} from "@components/svg";
 
 export default function Feed({post, isModal = false}: IFeedProps) {
   const {

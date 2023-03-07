@@ -1,8 +1,8 @@
-import { dateToTime } from "@libs/utils";
-import useOtherUser from "hooks/useOtherUser";
 import Image from "next/legacy/image";
-import { useRouter } from "next/router";
-import { IChatItem } from "types/types";
+import {useRouter} from "next/router";
+import {dateToTime} from "@libs/utils";
+import useOtherUser from "hooks/useOtherUser";
+import {IChatItem} from "types/types";
 
 export default function ChatItem({
   userId,
@@ -11,11 +11,11 @@ export default function ChatItem({
   lastTimeStamp,
 }: IChatItem) {
   const router = useRouter();
-  const { data } = useOtherUser(userId);
+  const {data} = useOtherUser(userId);
   const onEnterChatroom = () => {
     router.push({
       pathname: `/chat/${chatroomId}`,
-      query: { name: data?.user?.name },
+      query: {name: data?.user?.name},
     });
   };
 

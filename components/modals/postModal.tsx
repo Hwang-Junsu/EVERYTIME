@@ -1,17 +1,16 @@
-import { Dispatch, SetStateAction } from "react";
-import { useQuery } from "react-query";
-import { api } from "@libs/api";
+import {useQuery} from "react-query";
+import {api} from "@libs/api";
 import Feed from "@components/feed/feed";
 import CommentsList from "@components/comments/commentsList";
 import CommonModal from "./commonModal";
-import { IPostModalProps } from "types/types";
+import {IPostModalProps} from "types/types";
 
 export default function PostModal({
   isOpen,
   setIsOpen,
   postId,
 }: IPostModalProps) {
-  const { data, isLoading } = useQuery(["posts", postId], () =>
+  const {data, isLoading} = useQuery(["posts", postId], () =>
     api.get(`/api/posts/${postId}`)
   );
   const onClick = () => {
