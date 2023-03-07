@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
+import {useEffect, useRef} from "react";
 
-export default function Observer({ handleIntersection }) {
+export default function Observer({handleIntersection}) {
   const target = useRef(null);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ export default function Observer({ handleIntersection }) {
           handleIntersection();
         }
       },
-      { threshold: 1 }
+      {threshold: 1}
     );
 
     if (target.current) {

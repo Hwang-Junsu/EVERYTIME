@@ -1,7 +1,4 @@
-import ChatAddModal from "@components/chat/chatAddModal";
-import ChatItem from "@components/chat/chatItem";
-import Layout from "@components/common/layout";
-import { db } from "@libs/firebase/firebase";
+import {useEffect, useState} from "react";
 import {
   collection,
   DocumentData,
@@ -10,13 +7,16 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import {db} from "@libs/firebase/firebase";
+import ChatAddModal from "@components/chat/chatAddModal";
+import ChatItem from "@components/chat/chatItem";
+import Layout from "@components/common/layout";
 import useUser from "hooks/useUser";
-import { useEffect, useState } from "react";
 
 export default function Chat() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [chatroomList, setChatroomList] = useState<DocumentData[]>([]);
-  const { user } = useUser();
+  const {user} = useUser();
 
   useEffect(() => {
     if (user) {

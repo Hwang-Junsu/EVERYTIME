@@ -1,16 +1,16 @@
+import {useCallback, useEffect} from "react";
+import {useSession} from "next-auth/react";
+import {useRouter} from "next/router";
 import Feed from "@components/feed/feed";
 import Layout from "@components/common/layout";
-import { useSession } from "next-auth/react";
-import { useCallback, useEffect } from "react";
-import { useRouter } from "next/dist/client/router";
-import { useFetchPosts } from "hooks/useFetchPosts";
+import {useFetchPosts} from "hooks/useFetchPosts";
 import Observer from "@components/common/observer";
 import RecentChats from "@components/chat/recentChats";
-import { PostWithLikeAndComment } from "types/types";
+import {PostWithLikeAndComment} from "types/types";
 
 function Home() {
-  const { data, hasNextPage, fetchNextPage } = useFetchPosts();
-  const { status } = useSession();
+  const {data, hasNextPage, fetchNextPage} = useFetchPosts();
+  const {status} = useSession();
   const router = useRouter();
   const checkLogin = useCallback(() => {
     if (status === "unauthenticated") router.push("/login");
@@ -25,7 +25,7 @@ function Home() {
   const renderPostsList = () => {
     if (data && data.pages) {
       const postList = data.pages.reduce<PostWithLikeAndComment[]>(
-        (prev, { allPosts }) => {
+        (prev, {allPosts}) => {
           if (allPosts) prev.push(...allPosts);
           return prev;
         },

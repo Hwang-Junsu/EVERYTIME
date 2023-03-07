@@ -1,4 +1,4 @@
-import { ICommentWithUser } from "types/types";
+import {ICommentWithUser} from "types/types";
 import Comment from "./comment";
 
 export default function CommentsList({

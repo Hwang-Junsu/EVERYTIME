@@ -1,5 +1,5 @@
-import { cls } from "@libs/utils";
-import { IButtonProps } from "types/types";
+import {cls} from "@libs/utils";
+import {IButtonProps} from "types/types";
 
 export default function Button({
   large = false,

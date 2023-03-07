@@ -1,6 +1,5 @@
-import { cls } from "@libs/utils";
-import { UseFormRegisterReturn } from "react-hook-form";
-import { IInputProps } from "types/types";
+import {cls} from "@libs/utils";
+import {IInputProps} from "types/types";
 
 export default function Input({
   register,

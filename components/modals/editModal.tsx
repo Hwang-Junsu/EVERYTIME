@@ -1,25 +1,24 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
+import {useQueryClient, useMutation} from "react-query";
+import {useForm} from "react-hook-form";
+import {useSession} from "next-auth/react";
+import Image from "next/legacy/image";
+import Loading from "@components/common/loading";
 import Input from "../common/input";
 import TextArea from "../common/textarea";
-import { useForm } from "react-hook-form";
 import Button from "../common/button";
-import { IEditProfile, IModalProps, IUpdateProfileRequest } from "types/types";
-import Image from "next/legacy/image";
-import { api } from "@libs/api";
-import { useMutation } from "react-query";
-import { useSession } from "next-auth/react";
-import { useQueryClient } from "react-query";
+import {IEditProfile, IModalProps, IUpdateProfileRequest} from "types/types";
+import {api} from "@libs/api";
 import CommonModal from "./commonModal";
-import Loading from "@components/common/loading";
 
-export default function EditModal({ isOpen, setIsOpen }: IModalProps) {
-  const { data: token } = useSession();
+export default function EditModal({isOpen, setIsOpen}: IModalProps) {
+  const {data: token} = useSession();
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { register, handleSubmit, watch } = useForm<IEditProfile>();
+  const {register, handleSubmit, watch} = useForm<IEditProfile>();
   const media = watch("profileImage");
   const [mediaPreview, setMediaPreview] = useState("");
-  const { mutate } = useMutation(
+  const {mutate} = useMutation(
     (data: IUpdateProfileRequest) =>
       api.patch(`/api/users/${token?.user?.id}`, data),
     {
@@ -47,11 +46,11 @@ export default function EditModal({ isOpen, setIsOpen }: IModalProps) {
     if (Boolean(data.profileImage[0])) {
       formData.append("file", data.profileImage[0]);
       const {
-        data: { uploadURL },
+        data: {uploadURL},
       } = await api.get("/api/image");
       const {
         data: {
-          result: { id },
+          result: {id},
         },
       } = await api.post(uploadURL, formData);
       addImageData = {

@@ -1,6 +1,6 @@
+import {useState} from "react";
 import Image from "next/legacy/image";
-import { useState } from "react";
-import { IPostCardProps } from "types/types";
+import {IPostCardProps} from "types/types";
 import PostModal from "../modals/postModal";
 
 export default function PostCard({

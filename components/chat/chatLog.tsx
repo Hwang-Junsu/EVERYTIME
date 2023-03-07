@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from "react";
-import { v4 as uuid } from "uuid";
-import { Scrollbars } from "react-custom-scrollbars";
+import {useEffect, useState, useRef} from "react";
+import {v4 as uuid} from "uuid";
+import {Scrollbars} from "react-custom-scrollbars";
 import Message from "./message";
 import {
   collection,
@@ -9,9 +9,9 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { db } from "@libs/firebase/firebase";
+import {db} from "@libs/firebase/firebase";
 
-export default function ChatLog({ user, chatroomId }) {
+export default function ChatLog({user, chatroomId}) {
   const [msgList, setMsgList] = useState([]);
   const scrollbarRef = useRef(null);
 
@@ -22,7 +22,7 @@ export default function ChatLog({ user, chatroomId }) {
       limit(1000)
     );
     onSnapshot(messagesRef, (querySnapshot) => {
-      setMsgList(querySnapshot.docs.map((doc) => ({ ...doc.data() })));
+      setMsgList(querySnapshot.docs.map((doc) => ({...doc.data()})));
     });
   }, []);
 

@@ -1,9 +1,9 @@
-import useOtherUser from "hooks/useOtherUser";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import Image from "next/legacy/image";
+import useOtherUser from "hooks/useOtherUser";
 
-export default function RecentChatItem({ chatroomId, userId }) {
-  const { data } = useOtherUser(userId);
+export default function RecentChatItem({chatroomId, userId}) {
+  const {data} = useOtherUser(userId);
   const router = useRouter();
   return (
     <>
@@ -13,7 +13,7 @@ export default function RecentChatItem({ chatroomId, userId }) {
           onClick={() =>
             router.push({
               pathname: `/chat/${chatroomId}`,
-              query: { name: data.user.name },
+              query: {name: data.user.name},
             })
           }
         >

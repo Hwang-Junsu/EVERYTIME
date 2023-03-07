@@ -1,10 +1,10 @@
-import { cls, dateToTime } from "@libs/utils";
-import useOtherUser from "hooks/useOtherUser";
 import Image from "next/legacy/image";
-import { IMessage } from "types/types";
+import {cls, dateToTime} from "@libs/utils";
+import useOtherUser from "hooks/useOtherUser";
+import {IMessage} from "types/types";
 
-export default function Message({ userId, timeStamp, msg, isMine }: IMessage) {
-  const { data } = useOtherUser(userId);
+export default function Message({userId, timeStamp, msg, isMine}: IMessage) {
+  const {data} = useOtherUser(userId);
   return (
     <>
       {data && (

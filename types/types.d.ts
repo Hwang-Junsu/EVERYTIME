@@ -1,5 +1,5 @@
-import { Post, User, Comment } from "@prisma/client";
-import { UseFormRegisterReturn } from "react-hook-form";
+import {Post, User, Comment} from "@prisma/client";
+import {UseFormRegisterReturn} from "react-hook-form";
 
 export interface IRegisterRequest {
   email: string;

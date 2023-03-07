@@ -1,13 +1,13 @@
-import Button from "@components/common/button";
-import { useSession } from "next-auth/react";
+import {useState} from "react";
+import {useRouter} from "next/router";
+import {useMutation, useQueryClient} from "react-query";
+import {useSession} from "next-auth/react";
 import Image from "next/legacy/image";
+import Button from "@components/common/button";
 import BasicProfile from "images/basic_profile.jpg";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
-import { api } from "@libs/api";
-import { useRouter } from "next/router";
+import {api} from "@libs/api";
 import EditModal from "@components/modals/editModal";
-import { IProfileCardProps } from "types/types";
+import {IProfileCardProps} from "types/types";
 
 export default function ProfileCard({
   image,
@@ -16,13 +16,13 @@ export default function ProfileCard({
   id,
   isFollow,
 }: IProfileCardProps) {
-  const { data: token } = useSession();
+  const {data: token} = useSession();
   const queryClient = useQueryClient();
   const router = useRouter();
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
-  const { mutate } = useMutation(
+  const {mutate} = useMutation(
     () => api.post(`/api/users/${router?.query?.id}/follow`),
-    { onSuccess: () => queryClient.invalidateQueries(["profile"]) }
+    {onSuccess: () => queryClient.invalidateQueries(["profile"])}
   );
   const onFollow = () => {
     mutate();

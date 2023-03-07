@@ -1,22 +1,21 @@
+import {useEffect, useState} from "react";
+import {useRouter} from "next/router";
+import {useSession} from "next-auth/react";
 import Layout from "@components/common/layout";
 import PostList from "@components/profile/postList";
-import { cls, convertUnitToKilo } from "@libs/utils";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import {cls, convertUnitToKilo} from "@libs/utils";
 import ChatAddModal from "@components/chat/chatAddModal";
-import PostIcon from "@components/svg/postIcon";
-import { BookmarkIcon } from "@components/svg";
 import ProfileCard from "@components/profile/profileCard";
 import useOtherUser from "hooks/useOtherUser";
+import {BookmarkIcon, PostIcon} from "@components/svg";
 
 export default function UserProfile() {
   const [followListOpen, setFollowListOpen] = useState<boolean>(false);
   const [isMyPosts, setIsMyPosts] = useState<boolean>(true);
   const router = useRouter();
-  const { data: token } = useSession();
+  const {data: token} = useSession();
 
-  const { data, refetch, isLoading } = useOtherUser(String(router.query.id));
+  const {data, refetch, isLoading} = useOtherUser(String(router.query.id));
 
   useEffect(() => {
     refetch();

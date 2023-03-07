@@ -1,14 +1,14 @@
-import AddModal from "@components/modals/addModal";
-import { AddIcon, ChatIcon, HomeIcon, ProfileIcon } from "@components/svg";
-import { cls } from "@libs/utils";
-import { useSession } from "next-auth/react";
+import {useState} from "react";
+import {useRouter} from "next/router";
+import {cls} from "@libs/utils";
+import {useSession} from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import AddModal from "@components/modals/addModal";
+import {AddIcon, ChatIcon, HomeIcon, ProfileIcon} from "@components/svg";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data } = useSession();
+  const {data} = useSession();
   const router = useRouter();
 
   return (

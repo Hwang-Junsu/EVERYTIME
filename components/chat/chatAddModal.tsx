@@ -1,11 +1,11 @@
-import PlusIcon from "@components/svg/plusIcon";
-import {db} from "@libs/firebase/firebase";
-import {cls} from "@libs/utils";
-import {addDoc, collection, getDocs, query, where} from "firebase/firestore";
-import useUser from "hooks/useUser";
 import Image from "next/legacy/image";
 import {useRouter} from "next/router";
+import {addDoc, collection, getDocs, query, where} from "firebase/firestore";
+import useUser from "hooks/useUser";
+import {db} from "@libs/firebase/firebase";
+import {cls} from "@libs/utils";
 import {IAddChatModalProps} from "types/types";
+import PlusIcon from "@components/svg/plusIcon";
 
 export default function ChatAddModal({
   isOpen,

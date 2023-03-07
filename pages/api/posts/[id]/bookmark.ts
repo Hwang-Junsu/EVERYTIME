@@ -1,13 +1,13 @@
+import {NextApiRequest, NextApiResponse} from "next";
+import {getToken} from "next-auth/jwt";
 import client from "@libs/server/client";
 import withHandler from "@libs/server/withHandler";
-import { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
 
 const secret = process.env.NEXTAUTH_SECRET;
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const token = await getToken({ req, secret });
-  if (!token) res.status(403).json({ message: "Not Login" });
+  const token = await getToken({req, secret});
+  if (!token) res.status(403).json({message: "Not Login"});
   const alreadyExists = await client.bookmark.findFirst({
     where: {
       postId: Number(req.query.id),
@@ -42,4 +42,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 }
 
-export default withHandler({ methods: ["POST"], handler });
+export default withHandler({methods: ["POST"], handler});
